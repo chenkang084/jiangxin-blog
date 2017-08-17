@@ -7,16 +7,28 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
-    "tslint":"tslint -c tslint.json -p tsconfig.json --fix"
+    "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "precommit": "npm run tslint"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.17.2",
+    "connect-redis": "^3.3.0",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "morgan": "^1.8.2"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.16.4",
+    "@types/connect-redis": "^0.0.6",
+    "@types/cors": "^2.8.1",
     "@types/express": "^4.0.36",
+    "@types/express-session": "^1.15.2",
+    "@types/morgan": "^1.7.32",
     "concurrently": "^3.5.0",
+    "husky": "^0.14.3",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
     "typescript": "^2.4.2"
