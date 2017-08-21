@@ -6,19 +6,25 @@ import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import * as session from "express-session";
 import * as redis from "connect-redis";
-import { config } from "./config/config.dev";
+import config from "./config";
+import initializeDb, { Db } from "./db/initializeDb";
+import HomeController from "./controllers/home";
 // import * as initializeDb from './db';
 // import * as middleware from './middleware';
 // import * as api from './api';
 // import * as config from './config.json';
+// console.log(config);
+
+import routers from "./routers/";
 
 const app = express();
 
 const RedisStore = require("connect-redis")(session);
-// app.server = http.createServer(app);
 
-//set public path
+// set public path
 app.use(express.static(path.resolve(__dirname, "public")));
+// set views
+app.set("views", path.resolve(__dirname, "public"));
 // logger
 app.use(morgan("dev"));
 // 3rd party middleware
@@ -62,6 +68,11 @@ app.get("/", function(req: any, res: any) {
 
 app.get("/test", (req: any, res: any) => {
   res.send({ test: "hello world" });
+});
+
+initializeDb((db: Db) => {
+  console.log("callback");
+  routers(app, db);
 });
 
 const server = app.listen(3000, function() {

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint"
   },
@@ -16,9 +16,11 @@
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
     "cors": "^2.8.4",
+    "cross-env": "^5.0.5",
     "express": "^4.15.4",
     "express-session": "^1.15.5",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "mysql": "^2.14.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.4",
@@ -27,6 +29,7 @@
     "@types/express": "^4.0.36",
     "@types/express-session": "^1.15.2",
     "@types/morgan": "^1.7.32",
+    "@types/mysql": "^0.0.34",
     "concurrently": "^3.5.0",
     "husky": "^0.14.3",
     "ts-node": "^3.3.0",
