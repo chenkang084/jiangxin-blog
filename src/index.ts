@@ -6,14 +6,18 @@ import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import * as session from "express-session";
 import * as redis from "connect-redis";
+import * as cookieParser from "cookie-parser";
 import config from "./config";
 import initializeDb, { Db } from "./db/initializeDb";
 import HomeController from "./controllers/home";
+import auth from "./middlewares/auth";
+
 // import * as initializeDb from './db';
 // import * as middleware from './middleware';
 // import * as api from './api';
 // import * as config from './config.json';
-// console.log(config);
+// console.log(process.cwd());
+// console.log(__dirname);
 
 import routers from "./routers/";
 
@@ -49,25 +53,22 @@ app.use(
 
 app.use(
   session({
-    secret: "test",
-    store: new RedisStore({
-      port: 6379,
-      host: "127.0.0.1",
-      db: 0,
-      pass: "",
-      ttl: 30
-    }),
+    secret: config.session_secret,
+    store: new RedisStore(config.redis),
     resave: false,
     saveUninitialized: false
   })
 );
 
-app.get("/", function(req: any, res: any) {
-  res.send("Hello World!!");
-});
+app.use(cookieParser(config.session_secret));
 
-app.get("/test", (req: any, res: any) => {
-  res.send({ test: "hello world" });
+// check user login status
+app.use(auth);
+
+app.get("/", function(req: any, res: any) {
+  req.session.test = "hehe";
+
+  res.send("Hello World!!");
 });
 
 initializeDb((db: Db) => {
@@ -75,7 +76,7 @@ initializeDb((db: Db) => {
   routers(app, db);
 });
 
-const server = app.listen(3000, function() {
+const server = app.listen(8888, function() {
   const host = server.address().address;
   const port = server.address().port;
 

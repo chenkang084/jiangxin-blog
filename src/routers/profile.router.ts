@@ -1,14 +1,14 @@
 import * as express from "express";
-import HomeController from "../controllers/home";
+import ProfileController from "../controllers/profile";
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 
 export default (app: Express, db?: Db) => {
-  const homeController = new HomeController(app, db);
+  const profileController = new ProfileController(app, db);
 
   const router = express.Router();
-  router.get("/test", homeController.test);
+  router.get("/test", profileController.test);
 
   // Apply the routes to our application with the prefix /api
-  app.use("/home", router);
+  app.use("/profile", router);
 };
