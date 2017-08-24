@@ -8,7 +8,7 @@ export const config = {
       host: "localhost",
       user: "root",
       password: "root",
-      database: "game",
+      database: "react-admin",
       connectionLimit: 10
     },
     // mongoose:{

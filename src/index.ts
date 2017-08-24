@@ -11,7 +11,7 @@ import config from "./config";
 import initializeDb, { Db } from "./db/initializeDb";
 import HomeController from "./controllers/home";
 import auth from "./middlewares/auth";
-
+import routers from "./routers/";
 // import * as initializeDb from './db';
 // import * as middleware from './middleware';
 // import * as api from './api';
@@ -19,11 +19,17 @@ import auth from "./middlewares/auth";
 // console.log(process.cwd());
 // console.log(__dirname);
 
-import routers from "./routers/";
-
 const app = express();
 
 const RedisStore = require("connect-redis")(session);
+
+// enable cors request
+app.use(
+  cors({
+    // exposedHeaders: config.corsHeaders,
+    credentials: true
+  })
+);
 
 // set public path
 app.use(express.static(path.resolve(__dirname, "public")));
@@ -32,11 +38,6 @@ app.set("views", path.resolve(__dirname, "public"));
 // logger
 app.use(morgan("dev"));
 // 3rd party middleware
-app.use(
-  cors({
-    exposedHeaders: config.corsHeaders
-  })
-);
 
 app.use(
   bodyParser.json({
@@ -60,21 +61,33 @@ app.use(
   })
 );
 
-app.use(cookieParser(config.session_secret));
-
-// check user login status
-app.use(auth);
-
 app.get("/", function(req: any, res: any) {
-  req.session.test = "hehe";
+  res.send("Hello World!!");
+});
+
+app.get("/api/auth", function(req, res) {
+  // res.cookie("test", "hh", {
+  //   path: "/",
+  //   maxAge: 1000 * 60 * 60 * 24 * 30,
+  //   signed: true,
+  //   httpOnly: true
+  // });
+
+  // console.log(req.sessions);
+  console.log(req.cookies);
 
   res.send("Hello World!!");
 });
 
+app.use(cookieParser(config.session_secret));
+
 initializeDb((db: Db) => {
-  console.log("callback");
+  // check user login status
+  app.use(auth(db));
+
   routers(app, db);
 });
+
 
 const server = app.listen(8888, function() {
   const host = server.address().address;
