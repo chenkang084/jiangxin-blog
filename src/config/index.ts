@@ -1,4 +1,4 @@
-let config;
+let config: any;
 
 switch (process.env.NODE_ENV) {
   case "dev":

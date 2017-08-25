@@ -5,9 +5,9 @@ import Base from "./base";
 
 export default class HomeController extends Base {
   private app: Express;
-  private db: Db;
+  private db?: Db;
 
-  constructor(app: Express, db: Db) {
+  constructor(app: Express, db?: Db) {
     super();
     this.app = app;
     this.db = db;
