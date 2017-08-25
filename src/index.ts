@@ -51,6 +51,8 @@ app.use(
     extended: true
   })
 );
+// cookie middleware must before session middleware
+app.use(cookieParser(config.session_secret));
 
 app.use(
   session({
@@ -61,33 +63,31 @@ app.use(
   })
 );
 
-app.get("/", function(req: any, res: any) {
-  res.send("Hello World!!");
-});
-
-app.get("/api/auth", function(req, res) {
-  // res.cookie("test", "hh", {
-  //   path: "/",
-  //   maxAge: 1000 * 60 * 60 * 24 * 30,
-  //   signed: true,
-  //   httpOnly: true
-  // });
-
-  // console.log(req.sessions);
-  console.log(req.cookies);
-
-  res.send("Hello World!!");
-});
-
-app.use(cookieParser(config.session_secret));
-
 initializeDb((db: Db) => {
   // check user login status
   app.use(auth(db));
 
+  app.get("/", function(req: any, res: any) {
+    res.send("Hello World!!");
+  });
+
+  app.get("/api/auth", function(req, res) {
+    // res.cookie("test", "hh", {
+    //   path: "/",
+    //   maxAge: 1000 * 60 * 60 * 24 * 30,
+    //   signed: true,
+    //   httpOnly: true
+    // });
+
+    // console.log(req.session);
+    // console.log(req.cookies);
+
+    res.send("Hello World!!");
+    // res.sendStatus(403);
+  });
+
   routers(app, db);
 });
-
 
 const server = app.listen(8888, function() {
   const host = server.address().address;
