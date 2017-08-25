@@ -1,16 +1,19 @@
 import * as express from "express";
-import HomeController from "../controllers/home";
+import AuthController from "../controllers/auth.controller";
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 
 export default (app: Express, db: Db) => {
-  const homeController = new HomeController(app, db);
+  const authController = new AuthController(app, db);
 
   const router = express.Router();
-  router.get("/test", homeController.test);
+  router.get("/test", authController.test);
 
-  router.post("/signId", homeController.signId);
+  router.post("/signId", authController.signId);
+
+  // router.modify("")
+  router.put("/signOut", authController.signOut);
 
   // Apply the routes to our application with the prefix /api
-  app.use("/auth", router);
+  app.use("/api/auth", router);
 };

@@ -9,8 +9,8 @@ import * as redis from "connect-redis";
 import * as cookieParser from "cookie-parser";
 import config from "./config";
 import initializeDb, { Db } from "./db/initializeDb";
-import HomeController from "./controllers/home";
-import auth from "./middlewares/auth";
+import HomeController from "./controllers/auth.controller";
+import auth from "./middlewares/auth.middle";
 import routers from "./routers/";
 // import * as initializeDb from './db';
 // import * as middleware from './middleware';
@@ -79,10 +79,10 @@ initializeDb((db: Db) => {
     //   httpOnly: true
     // });
 
-    // console.log(req.session);
-    // console.log(req.cookies);
+    setTimeout(() => {
+      res.send("Hello World!!");
+    }, 4000);
 
-    res.send("Hello World!!");
     // res.sendStatus(403);
   });
 

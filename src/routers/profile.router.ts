@@ -10,5 +10,5 @@ export default (app: Express, db?: Db) => {
   router.get("/test", profileController.test);
 
   // Apply the routes to our application with the prefix /api
-  app.use("/profile", router);
+  app.use("/api/profile", router);
 };

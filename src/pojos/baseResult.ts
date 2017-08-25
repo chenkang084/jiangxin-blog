@@ -6,7 +6,7 @@
 
 export interface BaseResult {
   type: string;
-  msg?: string;
+  msg?: any;
   items?: object;
 }
 
