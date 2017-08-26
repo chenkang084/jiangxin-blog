@@ -80,7 +80,7 @@ initializeDb((db: Db) => {
     // });
 
     setTimeout(() => {
-      res.send("Hello World!!");
+      res.sendStatus(401);
     }, 4000);
 
     // res.sendStatus(403);
