@@ -41,6 +41,17 @@ export default class HomeController extends Base {
             result.type = "success";
             const session = req.session as Express.Session;
             session.user = data[0];
+
+            const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
+            const opts = {
+              path: "/",
+              maxAge: 1000 * 60 * 60 * 24 * 30,
+              signed: true,
+              httpOnly: true
+            };
+            res.cookie(config.auth_cookie_name, auth_token, opts); // cookie 有效期30天
+
+            console.log("save user to session", session);
           } else {
             result.type = "fail";
           }

@@ -7,12 +7,17 @@ export default (db: Db) => {
   return (req: Request, res: Response, next: NextFunction) => {
     console.log("auth middle");
 
-    const session = req.session as Express.Session;
-
-    if (!session.user) {
-      res.sendStatus(401);
-    } else {
-      next();
-    }
+    // const session = req.session as Express.Session;
+    // console.log(req.url);
+    // if (req.url && req.url === "/api/auth/signId") {
+    //   next();
+    // } else {
+    //   if (!session.user) {
+    //     res.sendStatus(401);
+    //   } else {
+    //     next();
+    //   }
+    // }
+    next();
   };
 };
