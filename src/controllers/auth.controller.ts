@@ -1,7 +1,7 @@
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
-import Base from "./base";
+import Base from "./base.controller";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
@@ -16,10 +16,8 @@ export default class HomeController extends Base {
     this.db = db;
   }
 
-  test = (req: Request, res: Response) => {
-    const session = req.session as Express.Session;
-    console.log(session.user);
-    res.send({ name: "test" });
+  auth = (req: Request, res: Response) => {
+    res.send({ status: "ok" });
   };
 
   /**
@@ -49,7 +47,7 @@ export default class HomeController extends Base {
               signed: true,
               httpOnly: true
             };
-            res.cookie(config.auth_cookie_name, auth_token, opts); // cookie 有效期30天
+            res.cookie(config.session_secret, auth_token, opts); // cookie 有效期30天
 
             console.log("save user to session", session);
           } else {

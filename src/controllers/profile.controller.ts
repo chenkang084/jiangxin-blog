@@ -1,7 +1,7 @@
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
-import Base from "./base";
+import Base from "./base.controller";
 
 export default class HomeController extends Base {
   private app: Express;

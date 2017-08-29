@@ -1,5 +1,5 @@
 import * as express from "express";
-import ProfileController from "../controllers/profile";
+import ProfileController from "../controllers/profile.controller";
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 
