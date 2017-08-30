@@ -7,21 +7,23 @@ export default (db: Db) => {
   return (req: Request, res: Response, next: NextFunction) => {
     console.log("auth middle");
 
-    // setTimeout(() => {
-    //   const session = req.session as Express.Session;
-    //   console.log(req.url);
-    //   console.log(session.user);
-    //   if (req.url && req.url === "/api/auth/signId") {
-    //     next();
-    //   } else {
-    //     if (!session.user) {
-    //       res.sendStatus(401);
-    //     } else {
-    //       next();
-    //     }
-    //   }
-    // }, 2000);
-
-    next();
+    if (config.debug) {
+      next();
+    } else {
+      setTimeout(() => {
+        const session = req.session as Express.Session;
+        console.log(req.url);
+        console.log(session.user);
+        if (req.url && req.url === "/api/auth/signId") {
+          next();
+        } else {
+          if (!session.user) {
+            res.sendStatus(401);
+          } else {
+            next();
+          }
+        }
+      }, 2000);
+    }
   };
 };

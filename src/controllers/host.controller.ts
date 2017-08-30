@@ -1,7 +1,7 @@
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
-import Base from "./base.controller";
+import BaseController from "./base.controller";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
@@ -35,9 +35,9 @@ const usersListData: any = Mock.mock({
 
 const database = usersListData.data;
 
-export default class HostController extends Base {
-  private app: Express;
-  private db: Db;
+export default class HostController extends BaseController {
+  public app: Express;
+  public db: Db;
 
   constructor(app: Express, db: Db) {
     super();
@@ -46,40 +46,7 @@ export default class HostController extends Base {
   }
 
   host = (req: Request, res: Response) => {
-    const { query } = req;
-    // tslint:disable-next-line:prefer-const
-    let { pageSize, page, ...other } = query;
-    pageSize = pageSize || 10;
-    page = page || 1;
-
-    let newData = database;
-    for (const key in other) {
-      if ({}.hasOwnProperty.call(other, key)) {
-        newData = newData.filter((item: any) => {
-          if ({}.hasOwnProperty.call(item, key)) {
-            if (key === "address") {
-              return other[key].every(
-                (iitem: any) => item[key].indexOf(iitem) > -1
-              );
-            } else if (key === "createTime") {
-              const start = new Date(other[key][0]).getTime();
-              const end = new Date(other[key][1]).getTime();
-              const now = new Date(item[key]).getTime();
-
-              if (start && end) {
-                return now >= start && now <= end;
-              }
-              return true;
-            }
-            return (
-              String(item[key]).trim().indexOf(decodeURI(other[key]).trim()) >
-              -1
-            );
-          }
-          return true;
-        });
-      }
-    }
+    const newData = database;
 
     res.status(200).json({
       data: newData,
@@ -88,4 +55,3 @@ export default class HostController extends Base {
   };
 }
 
-// const HostController = new HostController()

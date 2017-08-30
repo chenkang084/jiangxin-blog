@@ -7,7 +7,7 @@ export default (app: Express, db: Db) => {
   const authController = new AuthController(app, db);
 
   const router = express.Router();
-  // router.get("/auth", authController.auth);
+  router.get("/auth", authController.auth);
 
   router.post("/signId", authController.signId);
 

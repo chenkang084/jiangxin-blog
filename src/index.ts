@@ -59,7 +59,7 @@ app.use(
     secret: config.session_secret,
     store: new RedisStore(config.redis),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
