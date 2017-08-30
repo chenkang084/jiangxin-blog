@@ -1,29 +1,32 @@
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
-import Base from "./base";
+import BaseController from "./base.controller";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
 
-export default class HomeController extends Base {
-  private app: Express;
-  private db: Db;
+export default class HomeController extends BaseController {
+  public app: Express;
+  public db: Db;
+  private authService: AuthService;
 
   constructor(app: Express, db: Db) {
     super();
     this.app = app;
     this.db = db;
+    this.authService = new AuthService(this.db);
   }
-
-  test = (req: Request, res: Response) => {
-    const session = req.session as Express.Session;
-    console.log(session.user);
-    res.send({ name: "test" });
-  };
 
   /**
    * check user sign status
+   */
+  auth = (req: Request, res: Response) => {
+    setTimeout(() => res.send({ status: "ok" }), 2000);
+  };
+
+  /**
+   * signId
    */
   signId = (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -32,8 +35,7 @@ export default class HomeController extends Base {
     };
 
     if (username && password) {
-      const authService = new AuthService(this.db);
-      authService
+      this.authService
         .queryUser([username, password])
         .then(data => {
           if (data && data.length > 0) {
@@ -41,15 +43,17 @@ export default class HomeController extends Base {
             result.type = "success";
             const session = req.session as Express.Session;
             session.user = data[0];
+            // session expires 30mins
+            session.cookie.maxAge = 1000 * 60 * 30;
 
             const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
             const opts = {
               path: "/",
-              maxAge: 1000 * 60 * 60 * 24 * 30,
+              maxAge: 1000 * 30,
               signed: true,
               httpOnly: true
             };
-            res.cookie(config.auth_cookie_name, auth_token, opts); // cookie 有效期30天
+            res.cookie(config.session_secret, auth_token, opts); // cookie 有效期30天
 
             console.log("save user to session", session);
           } else {
@@ -67,6 +71,9 @@ export default class HomeController extends Base {
     }
   };
 
+  /**
+   * signOut
+   */
   signOut = (req: Request, res: Response) => {
     const session = req.session as Express.Session;
     session.destroy(err => console.log(err));

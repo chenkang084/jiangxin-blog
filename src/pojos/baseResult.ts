@@ -11,5 +11,6 @@ export interface BaseResult {
 }
 
 const a: BaseResult = {
-  type: "success"
+  type: "success",
+  // items: 1
 };

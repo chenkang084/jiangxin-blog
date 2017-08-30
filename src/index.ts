@@ -34,7 +34,7 @@ app.use(
 // set public path
 app.use(express.static(path.resolve(__dirname, "public")));
 // set views
-app.set("views", path.resolve(__dirname, "public"));
+app.set("views", path.resolve(__dirname, "views"));
 // logger
 app.use(morgan("dev"));
 // 3rd party middleware
@@ -59,7 +59,7 @@ app.use(
     secret: config.session_secret,
     store: new RedisStore(config.redis),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
@@ -71,20 +71,20 @@ initializeDb((db: Db) => {
     res.send("Hello World!!");
   });
 
-  app.get("/api/auth", function(req, res) {
-    // res.cookie("test", "hh", {
-    //   path: "/",
-    //   maxAge: 1000 * 60 * 60 * 24 * 30,
-    //   signed: true,
-    //   httpOnly: true
-    // });
+  // app.get("/api/auth", function(req, res) {
+  //   // res.cookie("test", "hh", {
+  //   //   path: "/",
+  //   //   maxAge: 1000 * 60 * 60 * 24 * 30,
+  //   //   signed: true,
+  //   //   httpOnly: true,
+  //   //   domain: ".my.react.tunnel.echomod.cn"
+  //   // });
 
-    setTimeout(() => {
-      res.sendStatus(401);
-    }, 4000);
-
-    // res.sendStatus(403);
-  });
+  //   setTimeout(() => {
+  //     // res.sendStatus(401);
+  //     res.send({ status: "ok" });
+  //   }, 0);
+  // });
 
   routers(app, db);
 });

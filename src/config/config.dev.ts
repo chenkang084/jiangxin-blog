@@ -1,5 +1,6 @@
 export const config = {
   port: 8888,
+  debug: false,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
   session_secret: "react-admin",
@@ -18,8 +19,8 @@ export const config = {
       port: 6379,
       host: "127.0.0.1",
       db: 0,
-      pass: ""
-      // ttl: 30
+      pass: "",
+      ttl: 60 * 30 // 30mins
     }
   }
 };

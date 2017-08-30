@@ -1,13 +1,13 @@
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
-import Base from "./base";
+import BaseController from "./base.controller";
 
-export default class HomeController extends Base {
-  private app: Express;
-  private db?: Db;
+export default class HomeController extends BaseController {
+  public app: Express;
+  public db: Db;
 
-  constructor(app: Express, db?: Db) {
+  constructor(app: Express, db: Db) {
     super();
     this.app = app;
     this.db = db;
