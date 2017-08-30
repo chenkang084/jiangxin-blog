@@ -5,6 +5,7 @@ import BaseController from "./base.controller";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
+import { log } from "../utils/common";
 
 export default class HomeController extends BaseController {
   public app: Express;
@@ -43,8 +44,9 @@ export default class HomeController extends BaseController {
             result.type = "success";
             const session = req.session as Express.Session;
             session.user = data[0];
-            // session expires 30mins
+            // session, session cookie expires 30mins
             session.cookie.maxAge = 1000 * 60 * 30;
+            session.cookie.expires = new Date(Date.now() + 1000 * 60 * 30);
 
             const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
             const opts = {
@@ -55,7 +57,7 @@ export default class HomeController extends BaseController {
             };
             res.cookie(config.session_secret, auth_token, opts); // cookie 有效期30天
 
-            console.log("save user to session", session);
+            log("save user to session", session);
           } else {
             result.type = "fail";
           }
@@ -76,7 +78,7 @@ export default class HomeController extends BaseController {
    */
   signOut = (req: Request, res: Response) => {
     const session = req.session as Express.Session;
-    session.destroy(err => console.log(err));
+    session.destroy(err => log(err));
     res.clearCookie(config.session_secret, { path: "/" });
     res.sendStatus(200);
   };

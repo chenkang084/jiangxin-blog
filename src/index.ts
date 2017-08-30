@@ -12,6 +12,7 @@ import initializeDb, { Db } from "./db/initializeDb";
 import HomeController from "./controllers/auth.controller";
 import auth from "./middlewares/auth.middle";
 import routers from "./routers/";
+import { log } from "./utils/common";
 // import * as initializeDb from './db';
 // import * as middleware from './middleware';
 // import * as api from './api';
@@ -59,7 +60,7 @@ app.use(
     secret: config.session_secret,
     store: new RedisStore(config.redis),
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false
   })
 );
 
@@ -71,21 +72,6 @@ initializeDb((db: Db) => {
     res.send("Hello World!!");
   });
 
-  // app.get("/api/auth", function(req, res) {
-  //   // res.cookie("test", "hh", {
-  //   //   path: "/",
-  //   //   maxAge: 1000 * 60 * 60 * 24 * 30,
-  //   //   signed: true,
-  //   //   httpOnly: true,
-  //   //   domain: ".my.react.tunnel.echomod.cn"
-  //   // });
-
-  //   setTimeout(() => {
-  //     // res.sendStatus(401);
-  //     res.send({ status: "ok" });
-  //   }, 0);
-  // });
-
   routers(app, db);
 });
 
@@ -93,5 +79,5 @@ const server = app.listen(8888, function() {
   const host = server.address().address;
   const port = server.address().port;
 
-  console.log("Example app listening at http://%s:%s", host, port);
+  log("Example app listening at http://%s:%s", host, port);
 });

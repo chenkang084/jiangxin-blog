@@ -1,6 +1,7 @@
 export const config = {
   port: 8888,
   debug: false,
+  console: true,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
   session_secret: "react-admin",
