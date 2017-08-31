@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
     "cookie-parser": "^1.4.3",
@@ -25,6 +26,7 @@
     "mysql": "^2.14.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.1",
     "@types/body-parser": "^1.16.4",
     "@types/connect-redis": "^0.0.6",
     "@types/cookie-parser": "^1.4.1",

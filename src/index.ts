@@ -79,5 +79,5 @@ const server = app.listen(8888, function() {
   const host = server.address().address;
   const port = server.address().port;
 
-  log("Example app listening at http://%s:%s", host, port);
+  console.log("Example app listening at http://%s:%s", host, port);
 });

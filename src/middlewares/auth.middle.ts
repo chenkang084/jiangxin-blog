@@ -14,7 +14,7 @@ export default (db: Db) => {
       setTimeout(() => {
         const session = req.session as Express.Session;
         log(req.url);
-        log(session.user);
+        log("session.user", session.user);
         if (req.url && req.url === "/api/auth/signId") {
           next();
         } else {
@@ -24,7 +24,7 @@ export default (db: Db) => {
             next();
           }
         }
-      }, 2000);
+      }, 0);
     }
   };
 };
