@@ -5,6 +5,7 @@ import BaseController from "./base.controller";
 import { BaseResult } from "../pojos/baseResult";
 import UserMgmtService from "../services/userMgmt.service";
 import config from "../config";
+import { log } from "../utils/common";
 
 export default class UserMgmtController extends BaseController {
   public app: Express;
@@ -21,7 +22,7 @@ export default class UserMgmtController extends BaseController {
   /**
    * check user sign status
    */
-  users = (req: Request, res: Response) => {
+  queryUserList = (req: Request, res: Response) => {
     const result: BaseResult = {
       type: "fail"
     };
@@ -31,6 +32,23 @@ export default class UserMgmtController extends BaseController {
         result.type = "success";
         result.items = data;
         res.send(result);
+      })
+      .catch(error => {
+        result.msg = error;
+        res.send(result);
+      });
+  };
+
+  addUsers = (req: Request, res: Response) => {
+    const result: BaseResult = {
+      type: "fail"
+    };
+
+    this.userMgmtService
+      .addUser(req.body)
+      .then(data => {
+        result.type = "success";
+        res.send("ok");
       })
       .catch(error => {
         result.msg = error;

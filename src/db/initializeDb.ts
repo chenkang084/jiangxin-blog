@@ -1,6 +1,7 @@
 import * as mysql from "mysql";
 import config from "../config";
 import * as mongoose from "mongoose";
+import { log } from "../utils/common";
 
 export interface Db {
   mysql: mysql.IPool;
@@ -14,10 +15,10 @@ const mysqlPoolPromise = new Promise((resolve, reject) => {
   });
   mysqlPool.getConnection((err, connection) => {
     if (err) {
-      console.log(err);
+      log(err);
       process.exit(1);
     }
-    console.log("mysql db connected!");
+    // log("mysql db connected!");
     resolve(mysqlPool);
   });
 });
@@ -31,10 +32,10 @@ const mysqlPoolPromise = new Promise((resolve, reject) => {
 //     },
 //     function(err) {
 //       if (err) {
-//         console.log(err);
+//         log(err);
 //         process.exit(1);
 //       }
-//       console.log("mongooDB connected!");
+//       log("mongooDB connected!");
 //       resolve(mongoose);
 //     }
 //   );
@@ -47,7 +48,7 @@ export default (callback: Function): void => {
   // promiseArr.push(mongooPromise);
 
   Promise.all(promiseArr).then(result => {
-    // console.log(result);
+    // log(result);
 
     const db: Db = {
       mysql: result[0],

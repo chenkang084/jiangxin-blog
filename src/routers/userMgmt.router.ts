@@ -7,9 +7,9 @@ export default (app: Express, db: Db) => {
   const userMgmtController = new UserMgmtController(app, db);
 
   const router = express.Router();
-  router.get("/users", userMgmtController.users);
+  router.get("/users", userMgmtController.queryUserList);
 
-//   router.post("/signId", authController.signId);
+  router.post("/user", userMgmtController.addUsers);
 
 //   // router.modify("")
 //   router.put("/signOut", authController.signOut);

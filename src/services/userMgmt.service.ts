@@ -1,4 +1,8 @@
+import * as mysql from "mysql";
 import { Db } from "../db/initializeDb";
+import sqls from "../db/sqls";
+import { log } from "../utils/common";
+import { genHash } from "../utils/bcrypt";
 
 export default class UserMgmtService {
   private db: Db;
@@ -8,14 +12,34 @@ export default class UserMgmtService {
   async queryUser(params?: any[]): Promise<any> {
     return await new Promise((resolve, reject) => {
       this.db.mysql.query(
-        `SELECT id, user_name AS username, DATE_FORMAT( update_time, '%Y-%m-%d %h:%i:%s' ) AS time, CASE WHEN type = 1 THEN 'admin' ELSE 'ordinary' END AS type FROM USER`,
+        sqls.userMgmt_getAllUsers,
         params,
         (err, data, fields) => {
           if (err) {
-            console.log(err);
+            log(err);
             reject(err);
           } else {
-            console.log(data);
+            log(data);
+            resolve(data);
+          }
+        }
+      );
+    });
+  }
+
+  async addUser(params: any): Promise<any> {
+    // convert plain pwd to hash
+    const hash = genHash(params.user_pwd);
+    return await new Promise((resolve, reject) => {
+      this.db.mysql.query(
+        sqls.userMgmt_addUser,
+        [params.user_name, hash, params.type],
+        (err, data, fields) => {
+          if (err) {
+            log(err);
+            reject(err);
+          } else {
+            log(data);
             resolve(data);
           }
         }
