@@ -1,6 +1,6 @@
 const sqls = {
   // auth
-  auth_queryUser: "select * from user where user_name=? and user_pwd=?",
+  auth_queryUser: "select * from user where user_name=? ",
 
   // userMgmt
   userMgmt_getAllUsers:
