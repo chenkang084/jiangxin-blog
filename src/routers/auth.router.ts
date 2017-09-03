@@ -2,7 +2,6 @@ import * as express from "express";
 import AuthController from "../controllers/auth.controller";
 import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
-
 export default (app: Express, db: Db) => {
   const authController = new AuthController(app, db);
 
@@ -17,3 +16,4 @@ export default (app: Express, db: Db) => {
   // Apply the routes to our application with the prefix /api
   app.use("/api/auth", router);
 };
+
