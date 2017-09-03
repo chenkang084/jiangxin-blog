@@ -1,7 +1,7 @@
 import { Db } from "../db/initializeDb";
 import sqls from "../db/sqls";
 import { log } from "../utils/common";
-import { genHash, compareHash } from "../utils/bcrypt";
+import { compareHash } from "../utils/bcrypt";
 
 export default class AuthService {
   private db: Db;
@@ -16,6 +16,7 @@ export default class AuthService {
           reject(err);
         } else {
           if (data.length > 0 && data[0]) {
+            // plainPwd not equals hashPwd ,return undefined
             if (!this.validatePwd(params[1], data[0].user_pwd)) {
               data = undefined;
             }

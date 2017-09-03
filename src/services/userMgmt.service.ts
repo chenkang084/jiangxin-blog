@@ -46,4 +46,22 @@ export default class UserMgmtService {
       );
     });
   }
+
+  async delUserById(userId: string): Promise<any> {
+    return await new Promise((resolve, reject) => {
+      this.db.mysql.query(
+        sqls.userMgmt_deleteUserById,
+        [userId],
+        (err, data, fields) => {
+          if (err) {
+            log(err);
+            reject(err);
+          } else {
+            log(data);
+            resolve(data);
+          }
+        }
+      );
+    });
+  }
 }
