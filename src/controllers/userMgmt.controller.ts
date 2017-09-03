@@ -20,7 +20,7 @@ export default class UserMgmtController extends BaseController {
   }
 
   /**
-   * check user sign status
+   * query all users
    */
   queryUserList = (req: Request, res: Response) => {
     const result: BaseResult = {
@@ -52,6 +52,26 @@ export default class UserMgmtController extends BaseController {
       })
       .catch(error => {
         result.msg = error;
+        res.send(result);
+      });
+  };
+
+  deleteUser = (req: Request, res: Response) => {
+    const userId = req.params.userId;
+    const result: BaseResult = {
+      type: "fail"
+    };
+
+    this.userMgmtService
+      .delUserById(userId)
+      .then(data => {
+        console.log(data);
+        if (data && data.affectedRows > 0) {
+          result.type = "success";
+        }
+        res.send(result);
+      })
+      .catch(error => {
         res.send(result);
       });
   };

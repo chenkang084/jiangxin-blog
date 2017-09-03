@@ -12,7 +12,7 @@ export default (app: Express, db: Db) => {
   router.post("/user", userMgmtController.addUsers);
 
 //   // router.modify("")
-//   router.put("/signOut", authController.signOut);
+  router.delete("/userId/:userId", userMgmtController.deleteUser);
 
   // Apply the routes to our application with the prefix /api
   app.use("/api/user", router);

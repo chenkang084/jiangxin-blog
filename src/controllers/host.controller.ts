@@ -49,7 +49,7 @@ export default class HostController extends BaseController {
     const newData = database;
 
     res.status(200).json({
-      data: newData,
+      items: newData,
       total: newData.length
     });
   };
