@@ -8,6 +8,8 @@ export default (app: Express, db: Db) => {
 
   const router = express.Router();
   router.get("/list", hostController.host);
+  router.get("/authDemo", hostController.authDemo);
+
 
   // Apply the routes to our application with the prefix /api
   app.use("/api/host", router);

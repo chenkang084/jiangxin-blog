@@ -15,7 +15,7 @@ export default (app: Express, db: Db) => {
   // auto import *.router.ts file
   const files = fs.readdirSync(__dirname);
   files.forEach(file => {
-    if (file.match(/^.*\.router.ts$/gim)) {
+    if (file.match(/^.*\.router.(t|j)s$/gim)) {
       require(`./${file}`).default(app, db);
     }
   });
