@@ -27,7 +27,7 @@ export default class UserMgmtController extends BaseController {
       type: "fail"
     };
     this.userMgmtService
-      .queryUser()
+      .queryAllUser()
       .then(data => {
         result.type = "success";
         result.items = data;
@@ -39,13 +39,30 @@ export default class UserMgmtController extends BaseController {
       });
   };
 
-  addUsers = (req: Request, res: Response) => {
+  addUser = (req: Request, res: Response) => {
     const result: BaseResult = {
       type: "fail"
     };
 
     this.userMgmtService
       .addUser(req.body)
+      .then(data => {
+        result.type = "success";
+        res.send("ok");
+      })
+      .catch(error => {
+        result.msg = error;
+        res.send(result);
+      });
+  };
+
+  updateUser = (req: Request, res: Response) => {
+    const result: BaseResult = {
+      type: "fail"
+    };
+
+    this.userMgmtService
+      .updateUser(req.body)
       .then(data => {
         result.type = "success";
         res.send("ok");
@@ -65,9 +82,28 @@ export default class UserMgmtController extends BaseController {
     this.userMgmtService
       .delUserById(userId)
       .then(data => {
-        console.log(data);
         if (data && data.affectedRows > 0) {
           result.type = "success";
+        }
+        res.send(result);
+      })
+      .catch(error => {
+        res.send(result);
+      });
+  };
+
+  getUserById = (req: Request, res: Response) => {
+    const userId = req.params.userId;
+    const result: BaseResult = {
+      type: "fail"
+    };
+
+    this.userMgmtService
+      .queryUserById(userId)
+      .then(data => {
+        if (data && data.length > 0) {
+          result.type = "success";
+          result.items = data[0];
         }
         res.send(result);
       })

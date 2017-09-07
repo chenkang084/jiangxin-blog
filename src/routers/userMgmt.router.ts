@@ -9,10 +9,13 @@ export default (app: Express, db: Db) => {
   const router = express.Router();
   router.get("/users", userMgmtController.queryUserList);
 
-  router.post("/user", userMgmtController.addUsers);
+  router.post("/user", userMgmtController.addUser);
 
-//   // router.modify("")
+  router.put("/user", userMgmtController.updateUser);
+
   router.delete("/userId/:userId", userMgmtController.deleteUser);
+
+  router.get("/userId/:userId", userMgmtController.getUserById);
 
   // Apply the routes to our application with the prefix /api
   app.use("/api/user", router);
