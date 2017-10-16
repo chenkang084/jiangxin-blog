@@ -14,7 +14,6 @@ import auth from "./middlewares/auth.middle";
 import routers from "./routers/";
 import { log } from "./utils/common";
 
-
 const app = express();
 
 const RedisStore = require("connect-redis")(session);
@@ -28,7 +27,7 @@ app.use(
 );
 
 // set public path
-app.use(express.static(path.resolve(__dirname, "public")));
+app.use(express.static(path.resolve(__dirname, "../public")));
 // set views
 app.set("views", path.resolve(__dirname, "views"));
 // logger
@@ -61,10 +60,10 @@ app.use(
 
 initializeDb((db: Db) => {
   // check user login status
-  app.use(auth(db));
+  // app.use(auth(db));
 
-  app.get("/", function(req: any, res: any) {
-    res.send("Hello World!!");
+  app.get("*", function(req: any, res: any) {
+    res.sendFile(path.join(__dirname, "../public", "index.html"));
   });
 
   routers(app, db);
