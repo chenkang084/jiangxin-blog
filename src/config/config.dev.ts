@@ -1,6 +1,6 @@
 export const config = {
   port: 8888,
-  debug: true,
+  debug: false,
   console: true,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],

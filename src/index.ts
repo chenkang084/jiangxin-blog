@@ -13,12 +13,7 @@ import HomeController from "./controllers/auth.controller";
 import auth from "./middlewares/auth.middle";
 import routers from "./routers/";
 import { log } from "./utils/common";
-// import * as initializeDb from './db';
-// import * as middleware from './middleware';
-// import * as api from './api';
-// import * as config from './config.json';
-// console.log(process.cwd());
-// console.log(__dirname);
+
 
 const app = express();
 

@@ -15,6 +15,7 @@ export default (db: Db) => {
         const session = req.session as Express.Session;
         log(req.url);
         log("session.user", session.user);
+        // sign api need not go through check sign status
         if (req.url && req.url === "/api/auth/signId") {
           next();
         } else {
