@@ -11,8 +11,10 @@ import config from "./config";
 import initializeDb, { Db } from "./db/initializeDb";
 import HomeController from "./controllers/auth.controller";
 import auth from "./middlewares/auth.middle";
+import apiMiddle from "./middlewares/api.middle";
 import routers from "./routers/";
 import { log } from "./utils/common";
+import { cephSevice } from "./services/axios.service";
 
 const app = express();
 
@@ -60,9 +62,14 @@ app.use(
 
 initializeDb((db: Db) => {
   // check user login status
-  // app.use(auth(db));
+  app.use(auth(db));
+  app.use(apiMiddle());
 
-  app.get("*", function(req: any, res: any) {
+  app.get("*", function(req: express.Request, res: express.Response) {
+    console.log("xxxxxxxxxxxx");
+
+    console.log(req.url);
+
     res.sendFile(path.join(__dirname, "../public", "index.html"));
   });
 

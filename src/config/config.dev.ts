@@ -1,6 +1,6 @@
 export const config = {
   port: 8888,
-  debug: false,
+  debug: true,
   console: true,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
@@ -23,5 +23,8 @@ export const config = {
       pass: "",
       ttl: 60 * 30 // 30mins
     }
+  },
+  components: {
+    ceph: "http://10.240.217.199:9999/v1/"
   }
 };
