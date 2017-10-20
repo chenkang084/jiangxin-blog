@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "prod":"slc start",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",
     "db": "node bin/start.redis.js"
