@@ -13,7 +13,7 @@ import HomeController from "./controllers/auth.controller";
 import { authMiddle, apiMiddle, htmlMiddle } from "./middlewares";
 import routers from "./routers/";
 import { log } from "./utils/common";
-import { cephSevice } from "./services/axios.service";
+import sockets from "./sockets";
 
 const app = express();
 
@@ -70,10 +70,13 @@ initializeDb((db: Db) => {
   app.use(apiMiddle());
 
   app.use(htmlMiddle());
-
 });
 
-const server = app.listen(8888, function() {
+const server = http.createServer(app);
+
+sockets(server);
+
+server.listen(8888, function() {
   const host = server.address().address;
   const port = server.address().port;
 

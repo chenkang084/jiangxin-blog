@@ -19,7 +19,7 @@ export default class UserMgmtService {
             log(err);
             reject(err);
           } else {
-            log(data);
+            // log(data);
             resolve(data);
           }
         }
@@ -39,7 +39,7 @@ export default class UserMgmtService {
             log(err);
             reject(err);
           } else {
-            log(data);
+            // log(data);
             resolve(data);
           }
         }
@@ -59,7 +59,7 @@ export default class UserMgmtService {
             log(err);
             reject(err);
           } else {
-            log(data);
+            // log(data);
             resolve(data);
           }
         }
@@ -77,7 +77,7 @@ export default class UserMgmtService {
             log(err);
             reject(err);
           } else {
-            log(data);
+            // log(data);
             resolve(data);
           }
         }
@@ -95,7 +95,7 @@ export default class UserMgmtService {
             log(err);
             reject(err);
           } else {
-            log(data);
+            // log(data);
             resolve(data);
           }
         }
