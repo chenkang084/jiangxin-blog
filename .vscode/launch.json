@@ -12,6 +12,7 @@
             "stopOnEntry": true,
             "console": "internalConsole",
             "cwd": "${workspaceRoot}",
+            // "program": "${workspaceRoot}/test.js",
             "program": "${workspaceRoot}/src/index.ts",
             "outFiles": ["${workspaceRoot}/dist/*.js"]
         }
