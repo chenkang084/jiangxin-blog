@@ -61,10 +61,10 @@ app.use(
 
 initializeDb((db: Db) => {
   // check user login status
-  app.use(authMiddle(db));
+  // app.use(authMiddle(db));
 
   // register define api
-  routers(app, db);
+  // routers(app, db);
 
   // call other service's api
   app.use(apiMiddle());

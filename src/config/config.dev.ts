@@ -26,6 +26,6 @@ export const config = {
     }
   },
   components: {
-    ceph: "http://10.240.217.199:9999/v1/"
+    ceph: "http://10.240.217.77/"
   }
 };
