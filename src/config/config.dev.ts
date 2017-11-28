@@ -13,19 +13,13 @@ export const config = {
       password: "root",
       database: "react-admin",
       connectionLimit: 10
-    },
-    // mongoose:{
+    }, // mongoose:{
 
     // },
-    redis: {
-      port: 6379,
-      host: "127.0.0.1",
-      db: 0,
-      pass: "",
-      ttl: 60 * 30 // 30mins
-    }
+    redis: { port: 6379, host: "127.0.0.1", db: 0, pass: "", ttl: 60 * 30 }
   },
   components: {
-    ceph: "http://10.240.217.77/"
+    // ceph: "http://10.240.217.77/" // 30mins
+    ceph: "http://10.240.217.201/"
   }
 };
