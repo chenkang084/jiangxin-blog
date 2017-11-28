@@ -15,14 +15,10 @@ export default (server: http.Server) => {
 
     console.log(`${origin} has connected`);
 
-    const timers: any = taskIo(io, agent);
+    taskIo(io, agent);
 
     agent.on("disconnect", function() {
       console.log(`${origin} has disconnected`);
-      console.log(`timers is ${timers}`);
-      timers && timers.length > 0 && timers.forEach((timer: any) => {
-          timer.clear();
-        });
     });
   });
 };

@@ -1,6 +1,5 @@
 import * as socketIo from "socket.io";
 import { queryHomeAlertInfo } from "../services/task.service";
-const taksTimers: any = [];
 
 export default function(io: SocketIO.Server, agent: SocketIO.Socket) {
   agent.on("name", function(data: any) {
@@ -10,12 +9,6 @@ export default function(io: SocketIO.Server, agent: SocketIO.Socket) {
 
     io.emit("home/reply", "hello everyone");
 
-    const timer = queryHomeAlertInfo(io, agent);
-
-    taksTimers.push(timer);
-
-    console.log("========", timer);
-
-    return taksTimers;
+    queryHomeAlertInfo(io, agent);
   });
 }
