@@ -64,7 +64,7 @@ initializeDb((db: Db) => {
   // app.use(authMiddle(db));
 
   // register define api
-  // routers(app, db);
+  routers(app, db);
 
   // call other service's api
   app.use(apiMiddle());
