@@ -5,6 +5,9 @@ import * as socketIo from "socket.io";
 const deepEqual = require("deep-equal");
 
 const FREQUENCE = 5000;
+const taskTimers: {
+  [key: string]: NodeJS.Timer;
+} = {};
 
 export async function queryHomeAlertInfo(
   io: SocketIO.Server,
@@ -48,13 +51,11 @@ async function autoTasks(
     initSocketCb(firstData);
   }
 
-  let timer: any;
-
-  if (timer) {
+  if (taskTimers[autoTasks.name]) {
     return;
   }
 
-  timer = setInterval(async () => {
+  taskTimers[autoTasks.name] = setInterval(async () => {
     console.log("start...");
 
     const { data: loopQueryData } = await task();
@@ -64,11 +65,7 @@ async function autoTasks(
     console.log(flag);
 
     if (firstData && !flag) {
-      console.log(
-        "====================diff...",
-        firstData,
-        loopQueryData
-      );
+      console.log("====================diff...", firstData, loopQueryData);
       firstData = loopQueryData;
 
       if (socketCb) {
