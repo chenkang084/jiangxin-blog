@@ -5,19 +5,50 @@ import * as socketIo from "socket.io";
 const deepEqual = require("deep-equal");
 
 const FREQUENCE = 5000;
-let timer: NodeJS.Timer;
 
 export async function queryHomeAlertInfo(
   io: SocketIO.Server,
-  agent: SocketIO.Socket
+  agent: SocketIO.Socket,
+  data: any
 ) {
-  let queryResult = await cephSevice.get("dashboard/api/ceph/clusters/", {
-    headers: {
-      Cookie: agent.request.headers.cookie
+  autoTasks(
+    () => {
+      return cephSevice.get(
+        `dashboard/api/ceph/clusters/${data.clusterId}/statistics/`,
+        {
+          headers: {
+            Cookie: agent.request.headers.cookie
+          }
+        }
+      );
+    },
+    newData => {
+      agent.emit("homePage/clusterInfo", newData);
+    },
+    newData => {
+      io.emit("homePage/clusterInfo", newData);
     }
-  });
+  );
+}
 
-  io.emit("home/reply", queryResult.data);
+/**
+ * auto run task
+ * @param task async get data from backend
+ * @param socketCb if next async get data is changed , send new data to frontend via socket
+ */
+async function autoTasks(
+  task: () => Promise<any>,
+  initSocketCb: (newData: any) => void,
+  socketCb: (newData: any) => void
+) {
+  let { data: firstData } = await task();
+
+  if (initSocketCb) {
+    console.log("first data send...");
+    initSocketCb(firstData);
+  }
+
+  let timer: any;
 
   if (timer) {
     return;
@@ -26,33 +57,23 @@ export async function queryHomeAlertInfo(
   timer = setInterval(async () => {
     console.log("start...");
 
-    const tempResult = await cephSevice.get("dashboard/api/ceph/clusters/", {
-      headers: {
-        Cookie: agent.request.headers.cookie
-      }
-    });
+    const { data: loopQueryData } = await task();
 
-    const flag = deepEqual(tempResult.data, queryResult.data);
+    const flag = deepEqual(firstData, loopQueryData);
 
     console.log(flag);
 
-    if (queryResult.data && !flag) {
+    if (firstData && !flag) {
       console.log(
         "====================diff...",
-        tempResult.data,
-        queryResult.data
+        firstData,
+        loopQueryData
       );
-      queryResult = tempResult;
+      firstData = loopQueryData;
 
-      io.emit("home/reply", tempResult.data);
+      if (socketCb) {
+        socketCb(loopQueryData);
+      }
     }
   }, FREQUENCE);
 }
-
-const autoRunTasks: any[] = [];
-
-function autoTasks(task: object) {
-  autoRunTasks.push(task);
-}
-
-

@@ -1,0 +1,20 @@
+{
+  "remotePath": "/home/chenkang/git/ts-express",
+  "host": "10.240.217.223",
+  "username": "chenkang",
+  "password": "root",
+  "port": 22,
+  "secure": false,
+  "protocol": "sftp",
+  "uploadOnSave": true,
+  "passive": false,
+  "debug": false,
+  "privateKeyPath": null,
+  "passphrase": null,
+  "ignore": ["\\.vscode", "\\.git", "\\.DS_Store", "\\node_modules"],
+  "generatedFiles": {
+    "uploadOnSave": false,
+    "extensionsToInclude": [],
+    "path": ""
+  }
+}
