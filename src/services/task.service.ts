@@ -37,10 +37,22 @@ export async function queryHomeAlertInfo(
     console.log(flag);
 
     if (queryResult.data && !flag) {
-      console.log("====================diff...", tempResult.data, queryResult.data);
+      console.log(
+        "====================diff...",
+        tempResult.data,
+        queryResult.data
+      );
       queryResult = tempResult;
 
       io.emit("home/reply", tempResult.data);
     }
   }, FREQUENCE);
 }
+
+const autoRunTasks: any[] = [];
+
+function autoTasks(task: object) {
+  autoRunTasks.push(task);
+}
+
+

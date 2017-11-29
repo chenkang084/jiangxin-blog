@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
-    "prod": "cd dist && pm2 start index.js",
+    "start":
+      "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "prod": "npm run stop && cd dist && pm2 start index.js -i 4",
+    "stop": "cd dist && pm2 delete all  ",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",
     "db": "node bin/start.redis.js"
