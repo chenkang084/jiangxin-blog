@@ -6,12 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start":
-      "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
     "prod": "npm run stop && cd dist && pm2 start index.js -i 4",
     "stop": "cd dist && pm2 delete all  ",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",
+    "generator":"ts-node ./scripts/generator.ts",
     "db": "node bin/start.redis.js"
   },
   "author": "",
@@ -45,6 +45,8 @@
     "@types/morgan": "^1.7.32",
     "@types/mysql": "^0.0.34",
     "@types/socket.io": "^1.4.31",
+    "chalk": "^2.3.0",
+    "commander": "^2.12.2",
     "concurrently": "^3.5.0",
     "husky": "^0.14.3",
     "mockjs": "^1.0.1-beta3",
