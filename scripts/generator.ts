@@ -1,6 +1,10 @@
 /// <reference types="node" />
 import * as fs from "fs";
-import { generatorRouterTemplate } from "./templates/autoRouter";
+import {
+  generatorRouterTemplate,
+  generatorServiceTemplate,
+  generatorControllerTemplate
+} from "./templates/autoRouter";
 
 const chalk = require("chalk"),
   // fs = require("fs"),
@@ -59,7 +63,15 @@ stdin.addListener("end", () => {
       path.join(rootPath, `/src/routers/${filename}.router.ts`),
       generatorRouterTemplate(filename)
     );
+
+    fs.writeFileSync(
+      path.join(rootPath, `/src/controllers/${filename}.controller.ts`),
+      generatorControllerTemplate(filename)
+    );
+
+    fs.writeFileSync(
+      path.join(rootPath, `/src/services/${filename}.service.ts`),
+      generatorServiceTemplate(filename)
+    );
   }
 });
-
-
