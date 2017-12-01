@@ -20,6 +20,6 @@ export const config = {
   },
   components: {
     // ceph: "http://10.240.217.77/" // 30mins
-    ceph: "http://10.240.217.201/"
+    ceph: "http://10.240.217.140/"
   }
 };

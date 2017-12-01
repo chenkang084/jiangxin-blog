@@ -17,7 +17,7 @@ import sockets from "./sockets";
 
 const app = express();
 
-const RedisStore = require("connect-redis")(session);
+// const RedisStore = require("connect-redis")(session);
 
 // enable cors request
 app.use(
@@ -48,16 +48,16 @@ app.use(
   })
 );
 // cookie middleware must before session middleware
-app.use(cookieParser(config.session_secret));
+// app.use(cookieParser(config.session_secret));
 
-app.use(
-  session({
-    secret: config.session_secret,
-    store: new RedisStore(config.redis),
-    resave: false,
-    saveUninitialized: false
-  })
-);
+// app.use(
+//   session({
+//     secret: config.session_secret,
+//     store: new RedisStore(config.redis),
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// );
 
 initializeDb((db: Db) => {
   // check user login status
@@ -67,9 +67,9 @@ initializeDb((db: Db) => {
   routers(app, db);
 
   // call other service's api
-  app.use(apiMiddle());
+  // app.use(apiMiddle());
 
-  app.use(htmlMiddle());
+  // app.use(htmlMiddle());
 });
 
 const server = http.createServer(app);

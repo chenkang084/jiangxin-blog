@@ -8,13 +8,13 @@ export default () => {
 
     const url = req.url;
 
-    console.log(req.headers.cookie);
+    // console.log(req.headers.cookie);
 
     if (/\/api\/+/.exec(url)) {
       cephSevice
         .get("dashboard/api/ceph/clusters/", {
           headers: {
-            Cookie: req.headers.cookie
+            // Cookie: req.headers.cookie
           }
         })
         .then(result => {
