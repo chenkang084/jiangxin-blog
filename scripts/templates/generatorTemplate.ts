@@ -1,11 +1,19 @@
-import { upCaseInitial } from "../utils/stringUtil";
+import { upCaseInitial, relativePath, formatPath } from "../utils/stringUtil";
 
-export const generatorRouterTemplate = function(fileName: string) {
+export const generatorRouterTemplate = function(
+  fileName: string,
+  folderPath: string
+) {
   const upperCase = upCaseInitial(fileName);
 
+  const goUpperPath = relativePath(folderPath),
+    _folderPath = formatPath(folderPath);
+
   return `import * as express from "express";
-import ${upperCase}Controller from "../controllers/${fileName}.controller";
-import { Db } from "../db/initializeDb";
+import ${upperCase}Controller from "../${goUpperPath}controllers/${
+    _folderPath
+  }/${fileName}.controller";
+import { Db } from "../${goUpperPath}db/initializeDb";
 import { Express } from "express";
 export default (app: Express, db: Db) => {
   const ${fileName}Controller = new ${upperCase}Controller(app, db);
@@ -17,8 +25,12 @@ export default (app: Express, db: Db) => {
 };`;
 };
 
-export const generatorServiceTemplate = function(fileName: string) {
+export const generatorServiceTemplate = function(
+  fileName: string,
+  folderPath: string
+) {
   const upperCase = upCaseInitial(fileName);
+  //   folderPathLength = folderPath.split("/");
   return `export default class ${upperCase}Service {
   test() {
     return "test ${fileName} service api";
@@ -26,11 +38,19 @@ export const generatorServiceTemplate = function(fileName: string) {
 }`;
 };
 
-export const generatorControllerTemplate = function(fileName: string) {
+export const generatorControllerTemplate = function(
+  fileName: string,
+  folderPath: string
+) {
   const upperCase = upCaseInitial(fileName);
-  return `import { Db } from "../db/initializeDb";
+  const goUpperPath = relativePath(folderPath),
+    _folderPath = formatPath(folderPath);
+  //   folderPathLength = folderPath.split("/");
+  return `import { Db } from "../${goUpperPath}db/initializeDb";
 import { Express, Request, Response } from "express";
-import ${upperCase}Service from "../services/${fileName}.service";
+import ${upperCase}Service from "../${goUpperPath}services/${_folderPath}/${
+    fileName
+  }.service";
 
 export default class ${upperCase}Controller {
   public app: Express;

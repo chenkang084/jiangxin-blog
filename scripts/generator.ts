@@ -4,10 +4,10 @@ import {
   generatorRouterTemplate,
   generatorServiceTemplate,
   generatorControllerTemplate
-} from "./templates/autoRouter";
+} from "./templates/generatorTemplate";
+import { formatPath } from "./utils/stringUtil";
 
 const chalk = require("chalk"),
-  // fs = require("fs"),
   commander = require("commander"),
   log = console.log.bind(console),
   stdin = process.openStdin(),
@@ -57,21 +57,40 @@ stdin.addListener("end", () => {
   log(inputTextArr);
 
   const [filename, folderPath] = inputTextArr;
+  let pathPre;
+
+  if (folderPath) {
+    pathPre = `src/${folderPath}`;
+
+    let tempPath: string = "";
+
+    formatPath(folderPath)
+      .split("/")
+      .forEach((level, index) => {
+        tempPath += level + "/";
+        fs.mkdirSync(path.join(rootPath, `/src/routers/${tempPath}`));
+        fs.mkdirSync(path.join(rootPath, `/src/controllers/${tempPath}`));
+        fs.mkdirSync(path.join(rootPath, `/src/services/${tempPath}`));
+      });
+  }
 
   if (filename) {
     fs.writeFileSync(
-      path.join(rootPath, `/src/routers/${filename}.router.ts`),
-      generatorRouterTemplate(filename)
+      path.join(rootPath, `/src/routers/${folderPath}/${filename}.router.ts`),
+      generatorRouterTemplate(filename, folderPath)
     );
 
     fs.writeFileSync(
-      path.join(rootPath, `/src/controllers/${filename}.controller.ts`),
-      generatorControllerTemplate(filename)
+      path.join(
+        rootPath,
+        `/src/controllers/${folderPath}/${filename}.controller.ts`
+      ),
+      generatorControllerTemplate(filename, folderPath)
     );
 
     fs.writeFileSync(
-      path.join(rootPath, `/src/services/${filename}.service.ts`),
-      generatorServiceTemplate(filename)
+      path.join(rootPath, `/src/services/${folderPath}/${filename}.service.ts`),
+      generatorServiceTemplate(filename, folderPath)
     );
   }
 });
