@@ -23,7 +23,7 @@ export default class HomeController extends BaseController {
    * check user sign status
    */
   auth = (req: Request, res: Response) => {
-    setTimeout(() => res.send({ status: "ok" }), 2000);
+    setTimeout(() => res.send({ status: "ok" }), 4000);
   };
 
   /**
@@ -55,7 +55,7 @@ export default class HomeController extends BaseController {
               signed: true,
               httpOnly: true
             };
-            res.cookie(config.session_secret, auth_token, opts); // cookie 有效期30天
+            res.cookie(config.session_secret, auth_token, opts);
 
             log("save user to session", session);
           } else {

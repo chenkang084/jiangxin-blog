@@ -8,53 +8,60 @@ export interface Db {
   mongoo?: Object;
 }
 
-// connect to mysql db
-const mysqlPoolPromise = new Promise((resolve, reject) => {
-  const mysqlPool = mysql.createPool({
-    ...config.db.mysql
-  });
-  mysqlPool.getConnection((err, connection) => {
-    if (err) {
-      log(err);
-      process.exit(1);
-    }
-    // log("mysql db connected!");
-    resolve(mysqlPool);
-  });
-});
+const dbEnable = config.db.enable || false;
+let mysqlPoolPromise: any;
 
-// connect to mongo db
-// const mongooPromise = new Promise((resolve, reject) => {
-//   mongoose.connect(
-//     "mongodb://127.0.0.1/node_club_dev",
-//     {
-//       server: { poolSize: 4 }
-//     },
-//     function(err) {
-//       if (err) {
-//         log(err);
-//         process.exit(1);
-//       }
-//       log("mongooDB connected!");
-//       resolve(mongoose);
-//     }
-//   );
-// });
+if (dbEnable) {
+  // connect to mysql db
+  mysqlPoolPromise = new Promise((resolve, reject) => {
+    const mysqlPool = mysql.createPool({
+      ...config.db.mysql
+    });
+    mysqlPool.getConnection((err, connection) => {
+      if (err) {
+        log(err);
+        process.exit(1);
+      }
+      // log("mysql db connected!");
+      resolve(mysqlPool);
+    });
+  });
+
+  // connect to mongo db
+  // const mongooPromise = new Promise((resolve, reject) => {
+  //   mongoose.connect(
+  //     "mongodb://127.0.0.1/node_club_dev",
+  //     {
+  //       server: { poolSize: 4 }
+  //     },
+  //     function(err) {
+  //       if (err) {
+  //         log(err);
+  //         process.exit(1);
+  //       }
+  //       log("mongooDB connected!");
+  //       resolve(mongoose);
+  //     }
+  //   );
+  // });
+}
 
 export default (callback: Function): void => {
-  const promiseArr: Array<any> = new Array();
+  if (dbEnable) {
+    const promiseArr: Array<any> = new Array();
 
-  promiseArr.push(mysqlPoolPromise);
-  // promiseArr.push(mongooPromise);
+    promiseArr.push(mysqlPoolPromise);
+    // promiseArr.push(mongooPromise);
 
-  Promise.all(promiseArr).then(result => {
-    // log(result);
+    Promise.all(promiseArr).then(result => {
+      // log(result);
 
-    const db: Db = {
-      mysql: result[0],
+      const db: Db = { mysql: result[0] };
       // mongoo: result[1]
-    };
 
-    callback(db);
-  });
+      callback(db);
+    });
+  } else {
+    callback();
+  }
 };

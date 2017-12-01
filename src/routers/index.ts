@@ -1,22 +1,19 @@
 import * as fs from "fs";
 import { Express } from "express";
-// import authRoute from "./auth.router";
 import profileRoute from "./profile.router";
 import hostRoute from "./host.router";
 import userMgmtRoute from "./userMgmt.router";
 import { Db } from "../db/initializeDb";
+import { walkSync } from "../utils/file.util";
 
 export default (app: Express, db: Db) => {
-  // authRoute(app, db);
-  // profileRoute(app, db);
-  // hostRoute(app, db);
-  // userMgmtRoute(app, db);
+  // auto load routes folder's *.router.ts file
+  const fileList: { name: string; path: string }[] = [];
+  walkSync(__dirname, fileList);
 
-  // auto import *.router.ts file
-  const files = fs.readdirSync(__dirname);
-  files.forEach(file => {
-    if (file.match(/^.*\.router.(t|j)s$/gim)) {
-      require(`./${file}`).default(app, db);
+  fileList.forEach(file => {
+    if (file.name.match(/^.*\.router.(t|j)s$/gim)) {
+      require(file.path).default(app, db);
     }
   });
 };

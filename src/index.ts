@@ -10,19 +10,14 @@ import * as cookieParser from "cookie-parser";
 import config from "./config";
 import initializeDb, { Db } from "./db/initializeDb";
 import HomeController from "./controllers/auth.controller";
-import auth from "./middlewares/auth.middle";
+import { authMiddle, apiMiddle, htmlMiddle } from "./middlewares";
 import routers from "./routers/";
 import { log } from "./utils/common";
-// import * as initializeDb from './db';
-// import * as middleware from './middleware';
-// import * as api from './api';
-// import * as config from './config.json';
-// console.log(process.cwd());
-// console.log(__dirname);
+import sockets from "./sockets";
 
 const app = express();
 
-const RedisStore = require("connect-redis")(session);
+// const RedisStore = require("connect-redis")(session);
 
 // enable cors request
 app.use(
@@ -33,7 +28,7 @@ app.use(
 );
 
 // set public path
-app.use(express.static(path.resolve(__dirname, "public")));
+app.use(express.static(path.resolve(__dirname, "../public")));
 // set views
 app.set("views", path.resolve(__dirname, "views"));
 // logger
@@ -53,29 +48,35 @@ app.use(
   })
 );
 // cookie middleware must before session middleware
-app.use(cookieParser(config.session_secret));
+// app.use(cookieParser(config.session_secret));
 
-app.use(
-  session({
-    secret: config.session_secret,
-    store: new RedisStore(config.redis),
-    resave: false,
-    saveUninitialized: false
-  })
-);
+// app.use(
+//   session({
+//     secret: config.session_secret,
+//     store: new RedisStore(config.redis),
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// );
 
 initializeDb((db: Db) => {
   // check user login status
-  app.use(auth(db));
+  // app.use(authMiddle(db));
 
-  app.get("/", function(req: any, res: any) {
-    res.send("Hello World!!");
-  });
-
+  // register define api
   routers(app, db);
+
+  // call other service's api
+  // app.use(apiMiddle());
+
+  // app.use(htmlMiddle());
 });
 
-const server = app.listen(8888, function() {
+const server = http.createServer(app);
+
+sockets(server);
+
+server.listen(8888, function() {
   const host = server.address().address;
   const port = server.address().port;
 

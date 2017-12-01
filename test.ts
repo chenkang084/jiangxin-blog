@@ -1,11 +1,8 @@
-import * as bcrypt from "bcryptjs";
+const deepEqual = require("deep-equal");
 
-// const salt = bcrypt.genSaltSync(10);
-// const hash = bcrypt.hashSync("a", salt);
+const a = undefined,
+  b = undefined;
 
-const p = bcrypt.compareSync("a", "$2a$10$kObKQG.2AV/6eW4FfOq04uZqQWjLRgPY9Z8NlPnwpD6LnQLgjX436"); // true
+const flag = deepEqual(a, b, { strict: true });
 
-
-// console.log(hash);
-console.log(p);
-// console.log(salt);
+console.log(flag);
