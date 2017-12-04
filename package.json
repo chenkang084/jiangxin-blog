@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
-    "prod": "npm run stop && cd dist && pm2 start index.js -i 4",
-    "stop": "cd dist && pm2 delete all  ",
+    "setup": "pm2 stop all",
+    "start":
+      "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "prod": "node ./bin/pm2.js ",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",
-    "generator":"ts-node ./scripts/generator.ts",
+    "generator": "ts-node ./scripts/generator.ts",
     "db": "node bin/start.redis.js"
   },
   "author": "",
