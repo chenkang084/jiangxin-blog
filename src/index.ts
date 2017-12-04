@@ -76,7 +76,9 @@ const server = http.createServer(app);
 
 sockets(server);
 
-server.listen(config.port || 8888, function() {
+console.log("**********", config.port);
+
+server.listen(config.port || 9080, function() {
   const host = server.address().address;
   const port = server.address().port;
 
