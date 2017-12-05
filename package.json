@@ -12,7 +12,7 @@
       "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
     "prod:run":
       "cross-env NODE_ENV=prod nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
-    "prod": "cross-env NODE_ENV=prod node ./bin/pm2.js ",
+    "prod": "npm run build && cross-env NODE_ENV=prod node ./bin/pm2.js",
     "clean": "rimraf ./dist",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",
