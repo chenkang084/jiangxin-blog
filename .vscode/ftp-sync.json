@@ -1,7 +1,7 @@
 {
   "remotePath": "/home/chenkang/git/ts-express",
   "host": "10.240.217.223",
-  "username": "chenkang",
+  "username": "root",
   "password": "root",
   "port": 22,
   "secure": false,

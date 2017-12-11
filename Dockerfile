@@ -18,3 +18,12 @@ RUN apt-get update \
     && apt-get install -y nodejs \
     && apt-get install -y git \
     && rm -rf /var/lib/apt/lists/*
+
+COPY . /app
+WORKDIR /app
+
+RUN npm install --registry=https://registry.npm.taobao.org
+
+EXPOSE 8000
+
+CMD ["npm", "start"]  
