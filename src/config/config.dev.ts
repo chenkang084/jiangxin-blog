@@ -1,5 +1,5 @@
 export const config = {
-  port: 8888,
+  port: 80,
   debug: true,
   console: false,
   bodyLimit: "100kb",
