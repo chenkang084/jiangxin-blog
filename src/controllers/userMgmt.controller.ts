@@ -51,7 +51,7 @@ export default class UserMgmtController extends BaseController {
         result.type = "success";
         res.send("ok");
       })
-      .catch(({ error }) => {
+      .catch((error) => {
         result.msg = error;
         res.send(result);
       });

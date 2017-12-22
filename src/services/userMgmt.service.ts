@@ -4,6 +4,7 @@ import sqls from "../db/sqls";
 import { log } from "../utils/common";
 import { genHash } from "../utils/bcrypt";
 import { mysqlQuery } from "../utils/sql.util";
+import { handleFuntionError } from "../utils/error.util";
 
 export default class UserMgmtService {
   private db: Db;
@@ -11,47 +12,36 @@ export default class UserMgmtService {
     this.db = db;
   }
   async queryAllUser(params?: any[]): Promise<any> {
-    try {
-      return await mysqlQuery.call(this, sqls.userMgmt_getAllUsers, params);
-    } catch (error) {
-      return { error };
-    }
+    handleFuntionError(() => {
+      return mysqlQuery.call(this, sqls.userMgmt_getAllUsers, params);
+    });
   }
 
-  async addUser(params: any): Promise<any> {
-    try {
-      // convert plain pwd to hash
+  addUser(params: any): Promise<any> {
+    return handleFuntionError(() => {
       const hash = genHash(params.user_pwd);
-      return await mysqlQuery.call(this, sqls.userMgmt_addUser,
+      return mysqlQuery.call(this, sqls.userMgmt_addUser,
         [params.user_name, hash, params.type]);
-    } catch (error) {
-      return { error };
-    }
+    });
   }
 
   async updateUser(params: any): Promise<any> {
-    try {
+    return handleFuntionError(() => {
       // convert plain pwd to hash
       const hash = genHash(params.user_pwd);
-      return await mysqlQuery.call(this, sqls.userMgmt_updateUser, [params.user_name, hash, params.type, params.id]);
-    } catch (error) {
-      return { error };
-    }
+      return mysqlQuery.call(this, sqls.userMgmt_updateUser, [params.user_name, hash, params.type, params.id]);
+    });
   }
 
   async delUserById(userId: string): Promise<any> {
-    try {
-      return await mysqlQuery.call(this, sqls.userMgmt_deleteUserById, [userId]);
-    } catch (error) {
-
-    }
+    return handleFuntionError(() => {
+      return mysqlQuery.call(this, sqls.userMgmt_deleteUserById, [userId]);
+    });
   }
 
   async queryUserById(userId: string): Promise<any> {
-    try {
-      return await mysqlQuery.call(this, sqls.userMgmt_queryUserById, [userId]);
-    } catch (error) {
-      return { error };
-    }
+    return handleFuntionError(() => {
+      return mysqlQuery.call(this, sqls.userMgmt_queryUserById, [userId]);
+    });
   }
 }
