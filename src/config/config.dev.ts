@@ -1,12 +1,12 @@
 export const config = {
-  port: 80,
+  port: 8888,
   debug: true,
   console: false,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
   session_secret: "react-admin",
   db: {
-    enable: false,
+    enable: true,
     mysql: {
       host: "localhost",
       user: "root",
