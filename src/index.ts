@@ -15,7 +15,11 @@ import routers from "./routers/";
 import { log } from "./utils/common";
 import sockets from "./sockets";
 
+const compression = require("compression");
+
 const app = express();
+
+app.use(compression());
 
 // const RedisStore = require("connect-redis")(session);
 

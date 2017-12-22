@@ -6,7 +6,7 @@ export const config = {
   corsHeaders: ["Link"],
   session_secret: "react-admin",
   db: {
-    enable: false,
+    enable: true,
     mysql: {
       host: "localhost",
       user: "root",

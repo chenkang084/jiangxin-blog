@@ -23,7 +23,7 @@ export default class HomeController extends BaseController {
    * check user sign status
    */
   auth = (req: Request, res: Response) => {
-    setTimeout(() => res.send({ status: "ok" }), 4000);
+    setTimeout(() => res.send({ status: "ok" }), 1000);
   };
 
   /**
