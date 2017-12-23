@@ -13,8 +13,10 @@
             "console": "internalConsole",
             "cwd": "${workspaceRoot}",
             // "program": "${workspaceRoot}/test.js",
-            "program": "${workspaceRoot}/src/index.ts",
-            "outFiles": ["${workspaceRoot}/dist/*.js"]
+            "program": "${workspaceRoot}/src/app.ts",
+            "outFiles": [
+                "${workspaceRoot}/dist/*.js"
+            ]
         }
     ]
 }

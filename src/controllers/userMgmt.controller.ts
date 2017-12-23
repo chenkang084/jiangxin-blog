@@ -1,4 +1,3 @@
-import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import * as express from "express";
 import BaseController from "./base.controller";
@@ -9,14 +8,12 @@ import { log } from "../utils/common";
 
 export default class UserMgmtController extends BaseController {
   public app: Express;
-  public db: Db;
   private userMgmtService: UserMgmtService;
 
-  constructor(app: Express, db: Db) {
+  constructor(app: Express) {
     super();
     this.app = app;
-    this.db = db;
-    this.userMgmtService = new UserMgmtService(this.db);
+    this.userMgmtService = new UserMgmtService();
   }
 
   /**

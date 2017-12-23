@@ -4,11 +4,15 @@ import { IError } from "mysql";
  * @param sql
  * @param params
  */
-export function mysqlQuery(sql: string, params: any) {
-  return new Promise((resolve, reject) => {
-    this.db.mysql.query(sql, params, (error: IError, data: any, fields: any) => {
-      if (error) reject({ error, sql, params });
-      resolve({ data, fields });
+export async function mysqlQuery(sql: string, params: any): Promise<any> {
+  const mysqlPool = await this.mysql;
+  return await new Promise((resolve, reject) => {
+    mysqlPool.query(sql, params, (error: IError, data: any, fields: any) => {
+      if (error) {
+        reject({ error, params });
+      } else {
+        resolve({ data, fields });
+      }
     });
   });
 }
