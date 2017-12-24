@@ -8,8 +8,6 @@ import * as session from "express-session";
 import * as redis from "connect-redis";
 import * as cookieParser from "cookie-parser";
 import config from "./config";
-import initializeDb, { Db } from "./db/initializeDb";
-import HomeController from "./controllers/auth.controller";
 import { authMiddle, apiMiddle, htmlMiddle } from "./middlewares";
 import routers from "./routers/";
 import { log } from "./utils/common";
@@ -63,18 +61,18 @@ app.use(
 //   })
 // );
 
-initializeDb((db: Db) => {
-  // check user login status
-  // app.use(authMiddle(db));
+// initializeDb((db: Db) => {
+//   // check user login status
+//   // app.use(authMiddle(db));
 
-  // register define api
-  routers(app, db);
+//   // register define api
 
-  // call other service's api
-  // app.use(apiMiddle());
+//   // call other service's api
+//   // app.use(apiMiddle());
 
-  // app.use(htmlMiddle());
-});
+//   // app.use(htmlMiddle());
+// });
+routers(app);
 
 const server = http.createServer(app);
 
@@ -82,7 +80,7 @@ sockets(server);
 
 console.log("**********", config.port);
 
-server.listen(config.port || 9080, function() {
+server.listen(config.port || 9080, function () {
   const host = server.address().address;
   const port = server.address().port;
 

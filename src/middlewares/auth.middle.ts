@@ -1,10 +1,9 @@
 import { Express, Router, Request, Response, NextFunction } from "express";
 // import * as session from "express-session";
-import { Db } from "../db/initializeDb";
 import config from "../config";
 import { log } from "../utils/common";
 
-export default (db: Db) => {
+export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     log("auth middle");
 

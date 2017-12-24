@@ -1,18 +1,14 @@
 import * as mysql from "mysql";
-import { Db } from "../db/initializeDb";
 import sqls from "../db/sqls";
 import { log } from "../utils/common";
 import { genHash } from "../utils/bcrypt";
 import { mysqlQuery } from "../utils/sql.util";
 import { handleFuntionError } from "../utils/error.util";
+import BaseService from "./base.service";
 
-export default class UserMgmtService {
-  private db: Db;
-  constructor(db: Db) {
-    this.db = db;
-  }
-  async queryAllUser(params?: any[]): Promise<any> {
-    handleFuntionError(() => {
+export default class UserMgmtService extends BaseService {
+  queryAllUser(params?: any[]): Promise<any> {
+    return handleFuntionError(() => {
       return mysqlQuery.call(this, sqls.userMgmt_getAllUsers, params);
     });
   }
