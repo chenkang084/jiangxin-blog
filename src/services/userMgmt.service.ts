@@ -7,10 +7,6 @@ import { handleFuntionError } from "../utils/error.util";
 import BaseService from "./base.service";
 
 export default class UserMgmtService extends BaseService {
-  // private db: Db;
-  // constructor(db: Db) {
-  //   this.db = db;
-  // }
   queryAllUser(params?: any[]): Promise<any> {
     return handleFuntionError(() => {
       return mysqlQuery.call(this, sqls.userMgmt_getAllUsers, params);

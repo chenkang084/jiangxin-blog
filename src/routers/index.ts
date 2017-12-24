@@ -1,9 +1,5 @@
-import * as fs from "fs";
 import { Express } from "express";
-// import profileRoute from "./profile.router";
-// import hostRoute from "./host.router";
 import userMgmtRoute from "./userMgmt.router";
-// import { Db } from "../db/initializeDb";
 import { walkSync } from "../utils/file.util";
 
 export default (app: Express) => {

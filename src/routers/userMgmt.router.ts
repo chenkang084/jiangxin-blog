@@ -1,10 +1,8 @@
 import * as express from "express";
 import UserMgmtController from "../controllers/userMgmt.controller";
-// import { Db } from "../db/initializeDb";
-import { Express, Router, Request, Response } from "express";
 
-export default (app: Express) => {
-  const userMgmtController = new UserMgmtController(app);
+export default (app: express.Express) => {
+  const userMgmtController = new UserMgmtController();
 
   const router = express.Router();
   router.get("/users", userMgmtController.queryUserList);
