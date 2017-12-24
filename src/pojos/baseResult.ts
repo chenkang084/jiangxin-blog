@@ -10,7 +10,3 @@ export interface BaseResult {
   items?: object;
 }
 
-const a: BaseResult = {
-  type: "success",
-  // items: 1
-};

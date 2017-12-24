@@ -22,10 +22,17 @@ export default class UserMgmtService extends BaseService {
   }
 
   async updateUser(params: any): Promise<any> {
-    return handleFuntionError(() => {
+    return handleFuntionError(async () => {
       // convert plain pwd to hash
       const hash = genHash(params.user_pwd);
-      return mysqlQuery.call(this, sqls.userMgmt_updateUser, [params.user_name, hash, params.type, params.id]);
+      const result = await mysqlQuery.call(this, sqls.userMgmt_updateUser, [params.user_name, hash, params.type, params.id]);
+      return await new Promise((resolve, reject) => {
+        if (result.data.affectedRows > 0) {
+          resolve("ok");
+        } else {
+          reject("error,affectedRows = 0,please check your parameters");
+        }
+      });
     });
   }
 
