@@ -1,11 +1,9 @@
-import { Express, Router, Request, Response } from "express";
-import * as express from "express";
+import { Request, Response } from "express";
 import BaseController from "./base.controller";
-import { BaseResult } from "../pojos/baseResult";
 import UserMgmtService from "../services/userMgmt.service";
-import config from "../config";
 import { log } from "../utils/common";
 import { successResult, failResult } from "../utils/error.util";
+import { BaseResult } from "../pojos/baseResult";
 
 export default class UserMgmtController extends BaseController {
   private userMgmtService: UserMgmtService = new UserMgmtService();
@@ -21,11 +19,10 @@ export default class UserMgmtController extends BaseController {
     this.userMgmtService
       .queryAllUser()
       .then(data => {
-        successResult.call(this, data);
-        res.send(this.result);
+        res.send(successResult.call(this, data));
       })
       .catch(error => {
-        failResult.call(this, error);
+        failResult.call(this, error, res);
       });
   };
 
@@ -33,67 +30,54 @@ export default class UserMgmtController extends BaseController {
     this.userMgmtService
       .addUser(req.body)
       .then(data => {
-        successResult.call(this, "ok");
-        res.send(this.result);
+        res.send(successResult.call(this, "ok"));
       })
       .catch((error) => {
-        failResult.call(this, error);
+        failResult.call(this, error, res);
       });
   };
 
   updateUser = (req: Request, res: Response) => {
-    const result: BaseResult = {
-      type: "fail"
-    };
-
     this.userMgmtService
       .updateUser(req.body)
       .then(data => {
-        result.type = "success";
-        res.send("ok");
+        res.send(successResult.call(this, "ok"));
       })
       .catch(error => {
-        result.msg = error;
-        res.send(result);
+        failResult.call(this, error, res);
       });
   };
 
   deleteUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
-    const result: BaseResult = {
-      type: "fail"
-    };
 
     this.userMgmtService
       .delUserById(userId)
       .then(data => {
+        let result: BaseResult | undefined;
         if (data && data.affectedRows > 0) {
-          result.type = "success";
+          result = successResult.call(this);
         }
         res.send(result);
       })
       .catch(error => {
-        res.send(result);
+        failResult.call(this, error, res);
       });
   };
 
   getUserById = (req: Request, res: Response) => {
     const userId = req.params.userId;
-    const result: BaseResult = {
-      type: "fail"
-    };
-
     this.userMgmtService
       .queryUserById(userId)
       .then(data => {
+        let result: BaseResult | undefined;
         if (data && data.length > 0) {
-          result.type = "success";
-          result.items = data[0];
+          result = successResult.call(this, data[0]);
         }
         res.send(result);
       })
       .catch(error => {
-        res.send(result);
+        failResult.call(this, error, res);
       });
   };
 }

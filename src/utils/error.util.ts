@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { BaseResult } from "../pojos/baseResult";
 
 /**
  * handle function runtime error
@@ -12,14 +13,18 @@ export function handleFuntionError(fn: () => Promise<any>) {
     }
 }
 
-export function successResult(data: any) {
-    this.result.type = "success";
-    this.result.items = data;
+export function successResult(data: any): BaseResult {
+    return {
+        type: "success",
+        items: data
+    };
 }
 
 export function failResult(error: any, res: Response) {
-    this.result.type = "failed";
-    this.result.msg = error;
+    const result = {
+        type: "failed",
+        msg: error
+    };
     res.status(500);
-    res.send(this.result);
+    res.send(result);
 }
