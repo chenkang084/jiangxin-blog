@@ -54,11 +54,7 @@ export default class UserMgmtController extends BaseController {
     this.userMgmtService
       .delUserById(userId)
       .then(data => {
-        let result: BaseResult | undefined;
-        if (data && data.affectedRows > 0) {
-          result = successResult.call(this);
-        }
-        res.send(result);
+        res.send(successResult.call(this, "ok"));
       })
       .catch(error => {
         failResult.call(this, error, res);
@@ -71,8 +67,8 @@ export default class UserMgmtController extends BaseController {
       .queryUserById(userId)
       .then(data => {
         let result: BaseResult | undefined;
-        if (data && data.length > 0) {
-          result = successResult.call(this, data[0]);
+        if (data && data.data.length > 0) {
+          result = successResult.call(this, data.data[0]);
         }
         res.send(result);
       })

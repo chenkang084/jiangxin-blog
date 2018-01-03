@@ -61,17 +61,6 @@ app.use(
 //   })
 // );
 
-// initializeDb((db: Db) => {
-//   // check user login status
-//   // app.use(authMiddle(db));
-
-//   // register define api
-
-//   // call other service's api
-//   // app.use(apiMiddle());
-
-//   // app.use(htmlMiddle());
-// });
 routers(app);
 
 const server = http.createServer(app);
