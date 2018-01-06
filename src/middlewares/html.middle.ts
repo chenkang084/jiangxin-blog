@@ -6,7 +6,9 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     log("html middle");
 
-    if (req.method === "GET") {
+    console.log("html middle", req.url);
+
+    if (req.method === "GET" && req.url.indexOf("api") < 0) {
       res.sendFile(path.resolve(__dirname, "../../public", "index.html"));
     } else {
       next();
