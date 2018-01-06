@@ -1,5 +1,5 @@
 export const config = {
-  port: 8888,
+  port: 9001,
   debug: true,
   console: false,
   bodyLimit: "100kb",
@@ -7,7 +7,7 @@ export const config = {
   session_secret: "react-admin",
   db: {
     mysql: {
-      enable: true,
+      enable: false,
       opts: {
         host: "localhost",
         user: "root",
@@ -17,7 +17,7 @@ export const config = {
       }
     },
     mongoose: {
-      enable: true,
+      enable: false,
       url: "mongodb://127.0.0.1/node_club_dev",
       opts: {
         useMongoClient: true,

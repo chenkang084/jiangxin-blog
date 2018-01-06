@@ -37,8 +37,15 @@ export default class UserMgmtService extends BaseService {
   }
 
   async delUserById(userId: string): Promise<any> {
-    return handleFuntionError(() => {
-      return mysqlQuery.call(this, sqls.userMgmt_deleteUserById, [userId]);
+    return handleFuntionError(async () => {
+      const result = await mysqlQuery.call(this, sqls.userMgmt_deleteUserById, [userId]);
+      return await new Promise((resolve, reject) => {
+        if (result.data.affectedRows > 0) {
+          resolve("ok");
+        } else {
+          reject("error,affectedRows = 0,please check your parameters");
+        }
+      });
     });
   }
 

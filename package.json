@@ -7,10 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "setup": "npm install --registry=https://registry.npm.taobao.org && npm run clean",
-    "start": "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/app.ts\"",
-    "prod:run": "cross-env NODE_ENV=prod nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
-    "prod": "npm run build && cross-env NODE_ENV=prod node ./bin/pm2.js",
+    "setup":
+      "npm install --registry=https://registry.npm.taobao.org && npm run clean",
+    "start":
+      "cross-env NODE_ENV=dev nodemon -w src -e ts,html --exec \"ts-node src/app.ts\"",
+    "prod:run":
+      "cross-env NODE_ENV=prod nodemon -w src -e ts,html --exec \"ts-node src/index.ts\"",
+    "prod": "cross-env NODE_ENV=prod node ./bin/pm2.js",
     "clean": "rimraf ./dist",
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "precommit": "npm run tslint",

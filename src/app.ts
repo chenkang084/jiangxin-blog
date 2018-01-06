@@ -49,38 +49,20 @@ app.use(
     extended: true
   })
 );
+
+app.use(htmlMiddle());
 // cookie middleware must before session middleware
 // app.use(cookieParser(config.session_secret));
 
-// app.use(
-//   session({
-//     secret: config.session_secret,
-//     store: new RedisStore(config.redis),
-//     resave: false,
-//     saveUninitialized: false
-//   })
-// );
-
-// initializeDb((db: Db) => {
-//   // check user login status
-//   // app.use(authMiddle(db));
-
-//   // register define api
-
-//   // call other service's api
-//   // app.use(apiMiddle());
-
-//   // app.use(htmlMiddle());
-// });
 routers(app);
 
 const server = http.createServer(app);
 
-sockets(server);
+// sockets(server);
 
 console.log("**********", config.port);
 
-server.listen(config.port || 9080, function () {
+server.listen(config.port || 9080, function() {
   const host = server.address().address;
   const port = server.address().port;
 
