@@ -54,6 +54,10 @@ app.use(htmlMiddle());
 // cookie middleware must before session middleware
 // app.use(cookieParser(config.session_secret));
 
+app.use("/test", (req, res) => {
+  res.render("test");
+});
+
 routers(app);
 
 const server = http.createServer(app);
