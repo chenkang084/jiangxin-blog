@@ -1,29 +1,22 @@
-FROM daocloud.io/ubuntu:16.04
+FROM daocloud.io/centos
 
-RUN echo "deb http://mirrors.163.com/ubuntu/ xenial main restricted universe multiverse" > /etc/apt/sources.list && \
-    echo "deb http://mirrors.163.com/ubuntu/ xenial-security main restricte universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.163.com/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.163.com/ubuntu/ xenial-proposed main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.163.com/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/ubuntu/ xenial-proposed main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
+RUN yum -y update \
+    && yum -y install epel-release \
+    && yum -y update \
+    && yum -y install redis \
+    && yum -y install -y git \
+    && yum -y install wget 
 
+RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - \
+    && yum -y install nodejs
 
-RUN apt-get update \
-    && apt-get install -y curl \
-    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get install -y git \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY . /app
+# COPY . /app
 WORKDIR /app
 
-RUN npm install --registry=https://registry.npm.taobao.org
+# RUN npm install --registry=https://registry.npm.taobao.org
 
 # EXPOSE 8000
 
-CMD ["npm", "start"]  
+# CMD ["npm", "start"]  
+
+# docker run --name jx -d -t -p 9005:9001 -v /usr/src/kang/:/app jiangxin

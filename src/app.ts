@@ -8,7 +8,7 @@ import * as session from "express-session";
 import * as redis from "connect-redis";
 import * as cookieParser from "cookie-parser";
 import config from "./config";
-import { authMiddle, apiMiddle, htmlMiddle } from "./middlewares";
+import middleware from "./middlewares";
 import routers from "./routers/";
 import { log } from "./utils/common";
 import sockets from "./sockets";
@@ -18,8 +18,6 @@ const compression = require("compression");
 const app = express();
 
 app.use(compression());
-
-// const RedisStore = require("connect-redis")(session);
 
 // enable cors request
 app.use(
@@ -32,7 +30,8 @@ app.use(
 // set public path
 app.use(express.static(path.resolve(__dirname, "../public")));
 // set views
-app.set("views", path.resolve(__dirname, "views"));
+app.set("views", path.resolve(__dirname, "../views"));
+app.set("view engine", "ejs");
 // logger
 app.use(morgan("dev"));
 // 3rd party middleware
@@ -50,12 +49,23 @@ app.use(
   })
 );
 
-app.use(htmlMiddle());
+const RedisStore = require("connect-redis")(session);
+app.use(
+  session({
+    secret: config.session_secret,
+    store: new RedisStore(config.db.redis),
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
 // cookie middleware must before session middleware
-// app.use(cookieParser(config.session_secret));
+app.use(cookieParser(config.session_secret));
+
+middleware(app);
 
 app.use("/test", (req, res) => {
-  res.render("test");
+  res.render("test", { test: "xxxxxxxx" });
 });
 
 routers(app);
@@ -63,8 +73,6 @@ routers(app);
 const server = http.createServer(app);
 
 // sockets(server);
-
-console.log("**********", config.port);
 
 server.listen(config.port || 9080, function() {
   const host = server.address().address;

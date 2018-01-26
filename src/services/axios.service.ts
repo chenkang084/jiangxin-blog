@@ -11,6 +11,6 @@ const generateAxios = ($config: AxiosConfig) => {
 };
 
 export const cephSevice = generateAxios({
-  baseURL: config.components.ceph,
+  baseURL: config.api.ceph,
   headers: { "X-Requested-With": "XMLHttpRequest" }
 });

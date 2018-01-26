@@ -1,7 +1,7 @@
 export const config = {
   port: 9001,
-  debug: true,
-  console: false,
+  debug: false,
+  console: true,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
   session_secret: "react-admin",
@@ -26,7 +26,7 @@ export const config = {
     },
     redis: { port: 6379, host: "127.0.0.1", db: 0, pass: "", ttl: 60 * 30 }
   },
-  components: {
+  api: {
     // ceph: "http://10.240.217.77/" // 30mins
     ceph: "http://10.240.217.140/"
   }
