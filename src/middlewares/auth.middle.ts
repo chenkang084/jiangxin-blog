@@ -7,8 +7,6 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     log("auth middle");
 
-    console.log("xxxxxxxxxxxxx");
-
     if (config.debug) {
       next();
     } else {
@@ -16,6 +14,7 @@ export default () => {
 
       log(req.url);
       log("session.user", session.user);
+      console.log("ccccccccccccccc", session.user);
       // sign api need not go through check sign status
       if (req.url && req.url === "/api/auth/signId") {
         next();
