@@ -32,7 +32,7 @@ export default class UserMgmtController extends BaseController {
       .then(data => {
         res.send(successResult.call(this, "ok"));
       })
-      .catch((error) => {
+      .catch(error => {
         failResult.call(this, error, res);
       });
   };

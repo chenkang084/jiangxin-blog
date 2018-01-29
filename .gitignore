@@ -1,4 +1,4 @@
 node_modules
 dist
-.vscode/ftp-sync.json
+.vscode
 public

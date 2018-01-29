@@ -4,7 +4,7 @@ export const config = {
   console: false,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
-  session_secret: "react-admin",
+  session_secret: "reactAdmin",
   db: {
     mysql: {
       enable: false,
@@ -12,7 +12,7 @@ export const config = {
         host: "localhost",
         user: "root",
         password: "root",
-        database: "react-admin",
+        database: "reactAdmin",
         connectionLimit: 10
       }
     },
