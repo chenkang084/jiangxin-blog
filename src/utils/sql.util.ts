@@ -11,7 +11,7 @@ export async function mysqlQuery(sql: string, params: any): Promise<any> {
     mysqlPool.query(sql, params, (error: IError, data: any, fields: any) => {
       console.log(error);
       // console.log(error.sql);
-      
+
       if (error) {
         reject({ error: error.stack, params });
       } else {
