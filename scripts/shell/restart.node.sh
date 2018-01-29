@@ -12,13 +12,11 @@ kill -9 $nodepid
 done
 echo "Done"
 
-# for nodepid in ${nodepids[@]}
-
-
-
-# echo "kill all nodejs progress ,then start node"
-
 cd ../../ 
-echo "pwd: "`pwd`
-
 npm start
+
+path=`pwd`
+a=`date "+%Y-%m-%d %H:%M:%S"` 
+echo ${path}"/scripts/shell/log.txt"
+echo $a" restart node server" >> ${path}"/scripts/shell/log.txt"
+
