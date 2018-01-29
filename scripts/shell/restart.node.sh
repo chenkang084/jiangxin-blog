@@ -12,11 +12,13 @@ kill -9 $nodepid
 done
 echo "Done"
 
-cd ../../ 
+path=`pwd`app/ts-express/
+
+echo $path
+cd ${path}
 npm start
 
-path=`pwd`
-a=`date "+%Y-%m-%d %H:%M:%S"` 
+time=`date "+%Y-%m-%d %H:%M:%S"` 
 echo ${path}"/scripts/shell/log.txt"
-echo $a" restart node server" >> ${path}"/scripts/shell/log.txt"
+echo $time" restart node server" >> ${path}"/scripts/shell/log.txt"
 
