@@ -27,3 +27,28 @@ the script can generator xx.router.ts,xx.controller.ts,xx.service.ts in the spec
 1.`chmod -R 777 /var/lib/mysql`  
 2.`/etc/init.d/mysql restart`  
 
+## crontab
+crontab 是linux中，定时执行任务的程序。  
+```
+Usage:
+ crontab [options] file
+ crontab [options]
+ crontab -n [hostname]
+
+Options:
+ -u <user>  define user
+ -e         edit user's crontab
+ -l         list user's crontab
+ -r         delete user's crontab
+ -i         prompt before deleting
+ -n <host>  set host in cluster to run users' crontabs
+ -c         get host in cluster to run users' crontabs
+ -s         selinux context
+ -x <mask>  enable debugging
+```
+在ubuntu中使用crontab，如果没有安装crontab，需要先安装
+```
+apt-get install cron
+
+service cron start
+```
