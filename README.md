@@ -54,3 +54,7 @@ apt-get install cron
 
 service cron start
 ```
+
+## session,cookie,redis
+- **session**:session是保存到服务器端的key,value形式的存储，在本文使用redis，可以将session中保存的key，value形式的数据保存到redis中，即使是服务器临时宕机，重启之后，之前保存的session信息也不会丢失。
+- **cookie**：是保存在client端的key，value数据。

@@ -4,6 +4,8 @@ import config from "../config";
 import { log } from "../utils/common";
 import { delay } from "../utils/delay.util";
 
+const ignoreApis = ["/api/auth/signIn", "api/auth/loginOut"];
+
 export default () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     log("auth middle");
@@ -15,8 +17,9 @@ export default () => {
 
       log(req.url);
       log("session.user", session.user);
+
       // sign api need not go through check sign status
-      if (req.url && req.url === "/api/auth/signIn") {
+      if (req.url && ignoreApis.indexOf(req.url) > -1) {
         next();
       } else {
         if (!session.user) {

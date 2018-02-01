@@ -5,11 +5,11 @@ export default (app: express.Express) => {
   const authController = new AuthController();
 
   const router = express.Router();
-  router.get("/isLogin", authController.isLogin);
+  router.get("/userInfo", authController.userInfo);
 
   router.post("/signIn", authController.signIn);
 
-  //   router.put("/user", userMgmtController.updateUser);
+  router.put("/signOut", authController.signOut);
 
   //   router.delete("/userId/:userId", userMgmtController.deleteUser);
 

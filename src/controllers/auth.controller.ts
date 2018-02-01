@@ -15,9 +15,9 @@ export default class AuthController extends BaseController {
   /**
    * check user sign status
    */
-  isLogin = (req: Request, res: Response) => {
+  userInfo = (req: Request, res: Response) => {
     const session = req.session as Express.Session;
-    res.send({ user: session.user });
+    res.send(session.user);
   };
 
   /**
@@ -42,7 +42,7 @@ export default class AuthController extends BaseController {
             const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
             const opts = {
               path: "/",
-              maxAge: 1000 * 30,
+              maxAge: 1000 * 60 * 30, // milliseconds
               signed: true,
               httpOnly: true
             };
@@ -65,13 +65,13 @@ export default class AuthController extends BaseController {
     }
   };
 
-  //   /**
-  //    * signOut
-  //    */
-  //   signOut = (req: Request, res: Response) => {
-  //     const session = req.session as Express.Session;
-  //     session.destroy(err => log(err));
-  //     res.clearCookie(config.session_secret, { path: "/" });
-  //     res.sendStatus(200);
-  //   };
+  /**
+   * signOut
+   */
+  signOut = (req: Request, res: Response) => {
+    const session = req.session as Express.Session;
+    session.destroy(err => log(err));
+    res.clearCookie(config.session_secret, { path: "/" });
+    res.sendStatus(200);
+  };
 }
