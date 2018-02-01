@@ -1,85 +1,77 @@
-// import { Db } from "../db/initializeDb";
-// import { Express, Router, Request, Response } from "express";
-// import * as express from "express";
-// import BaseController from "./base.controller";
-// import { BaseResult } from "../pojos/baseResult";
-// import AuthService from "../services/auth.service";
-// import config from "../config";
-// import { log } from "../utils/common";
+import { Request, Response } from "express";
+import BaseController from "./base.controller";
+import { log } from "../utils/common";
+import { successResult, failResult } from "../utils/error.util";
+import { BaseResult } from "../pojos/baseResult";
+import AuthService from "../services/auth.service";
+import config from "../config";
+import * as session from "express-session";
+export default class AuthController extends BaseController {
+  private authService: AuthService = new AuthService();
+  constructor() {
+    super();
+  }
 
-// export default class HomeController extends BaseController {
-//   public app: Express;
-//   public db: Db;
-//   private authService: AuthService;
+  /**
+   * check user sign status
+   */
+  userInfo = (req: Request, res: Response) => {
+    const session = req.session as Express.Session;
+    res.send(session.user);
+  };
 
-//   constructor(app: Express, db: Db) {
-//     super();
-//     this.app = app;
-//     this.db = db;
-//     this.authService = new AuthService(this.db);
-//   }
+  /**
+   * signId
+   */
+  signIn = (req: Request, res: Response) => {
+    const { user_name, user_pwd } = req.body;
+    const result: BaseResult = { type: "fail" };
+    if (user_name && user_pwd) {
+      this.authService
+        .queryUser(user_name, user_pwd)
+        .then(data => {
+          if (data) {
+            result.items = data;
+            result.type = "success";
+            const session = req.session as Express.Session;
+            session.user = data;
+            // session, session cookie expires 30mins
+            session.cookie.maxAge = 1000 * 60 * 30;
+            session.cookie.expires = new Date(Date.now() + 1000 * 60 * 30);
 
-//   /**
-//    * check user sign status
-//    */
-//   auth = (req: Request, res: Response) => {
-//     setTimeout(() => res.send({ status: "ok" }), 1000);
-//   };
+            const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
+            const opts = {
+              path: "/",
+              maxAge: 1000 * 60 * 30, // milliseconds
+              signed: true,
+              httpOnly: true
+            };
+            res.cookie(config.session_secret, auth_token, opts);
 
-//   /**
-//    * signId
-//    */
-//   signId = (req: Request, res: Response) => {
-//     const { username, password } = req.body;
-//     const result: BaseResult = {
-//       type: "fail"
-//     };
+            log("save user to session", session);
+          } else {
+            result.type = "fail";
+            result.msg = "用户名或密码错误！";
+          }
+          res.send(result);
+        })
+        .catch(err => {
+          result.msg = err;
+          result.type = "fail";
+          res.send(result);
+        });
+    } else {
+      res.send(result);
+    }
+  };
 
-//     if (username && password) {
-//       this.authService
-//         .queryUser([username, password])
-//         .then(data => {
-//           if (data && data.length > 0) {
-//             result.items = data;
-//             result.type = "success";
-//             const session = req.session as Express.Session;
-//             session.user = data[0];
-//             // session, session cookie expires 30mins
-//             session.cookie.maxAge = 1000 * 60 * 30;
-//             session.cookie.expires = new Date(Date.now() + 1000 * 60 * 30);
-
-//             const auth_token = session.user.id + "$$$$"; // 以后可能会存储更多信息，用 $$$$ 来分隔
-//             const opts = {
-//               path: "/",
-//               maxAge: 1000 * 30,
-//               signed: true,
-//               httpOnly: true
-//             };
-//             res.cookie(config.session_secret, auth_token, opts);
-
-//             log("save user to session", session);
-//           } else {
-//             result.type = "fail";
-//           }
-//           res.send(result);
-//         })
-//         .catch(err => {
-//           result.msg = err;
-//           result.type = "fail";
-//           res.send(result);
-//         });
-//     } else {
-//       res.send(result);
-//     }
-//   };
-
-//   /**
-//    * signOut
-//    */
-//   signOut = (req: Request, res: Response) => {
-//     const session = req.session as Express.Session;
-//     session.destroy(err => log(err));
-//     res.clearCookie(config.session_secret, { path: "/" });
-//     res.sendStatus(200);
-//   };
-// }
+  /**
+   * signOut
+   */
+  signOut = (req: Request, res: Response) => {
+    const session = req.session as Express.Session;
+    session.destroy(err => log(err));
+    res.clearCookie(config.session_secret, { path: "/" });
+    res.sendStatus(200);
+  };
+}

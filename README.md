@@ -22,8 +22,39 @@ the script can generator xx.router.ts,xx.controller.ts,xx.service.ts in the spec
 - **export container** : `docker export jx > XXXname.tar`  
 - **import container** : `docker import XXXname.tar`  
 - **run import container** : `docker run --name jx -d -t -p 9001:9001 -v /usr/src/kang/:/app jiangxin /bin/bash`  
+-- **rename container** : `docker rename oldname newname`
+-- **rename image** : `docker tag oldname newname`
 
 > 关于导入container之后，mysql无法连接，`Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`的解决方法：
 1.`chmod -R 777 /var/lib/mysql`  
 2.`/etc/init.d/mysql restart`  
 
+## crontab
+crontab 是linux中，定时执行任务的程序。  
+```
+Usage:
+ crontab [options] file
+ crontab [options]
+ crontab -n [hostname]
+
+Options:
+ -u <user>  define user
+ -e         edit user's crontab
+ -l         list user's crontab
+ -r         delete user's crontab
+ -i         prompt before deleting
+ -n <host>  set host in cluster to run users' crontabs
+ -c         get host in cluster to run users' crontabs
+ -s         selinux context
+ -x <mask>  enable debugging
+```
+在ubuntu中使用crontab，如果没有安装crontab，需要先安装
+```
+apt-get install cron
+
+service cron start
+```
+
+## session,cookie,redis
+- **session**:session是保存到服务器端的key,value形式的存储，在本文使用redis，可以将session中保存的key，value形式的数据保存到redis中，即使是服务器临时宕机，重启之后，之前保存的session信息也不会丢失。
+- **cookie**：是保存在client端的key，value数据。
