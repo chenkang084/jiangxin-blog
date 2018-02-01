@@ -7,16 +7,14 @@ import sqls from "../db/sqls";
 
 export default class AuthService extends BaseService {
   queryUser = async (username: string, userpwd: string) => {
-    const hashPwd = genHash(userpwd);
-
     const result = await handleFuntionError(() => {
       return mysqlQuery.call(this, sqls.auth_queryUser, [username]);
     });
 
     if (result && result.data && result.data.length > 0) {
       const user = result.data[0];
-      if (compareHash(userpwd, hashPwd)) {
-        return user;
+      if (compareHash(userpwd, user.user_pwd)) {
+        return { id: user.id, user_name: user.user_name };
       }
     }
   };

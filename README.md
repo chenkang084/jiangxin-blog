@@ -22,6 +22,8 @@ the script can generator xx.router.ts,xx.controller.ts,xx.service.ts in the spec
 - **export container** : `docker export jx > XXXname.tar`  
 - **import container** : `docker import XXXname.tar`  
 - **run import container** : `docker run --name jx -d -t -p 9001:9001 -v /usr/src/kang/:/app jiangxin /bin/bash`  
+-- **rename container** : `docker rename oldname newname`
+-- **rename image** : `docker tag oldname newname`
 
 > 关于导入container之后，mysql无法连接，`Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'`的解决方法：
 1.`chmod -R 777 /var/lib/mysql`  

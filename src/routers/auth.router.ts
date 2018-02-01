@@ -5,7 +5,7 @@ export default (app: express.Express) => {
   const authController = new AuthController();
 
   const router = express.Router();
-  //   router.get("/users", userMgmtController.queryUserList);
+  router.get("/isLogin", authController.isLogin);
 
   router.post("/signIn", authController.signIn);
 

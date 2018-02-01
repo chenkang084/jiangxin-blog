@@ -5,6 +5,7 @@ import { successResult, failResult } from "../utils/error.util";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
+import * as session from "express-session";
 export default class AuthController extends BaseController {
   private authService: AuthService = new AuthService();
   constructor() {
@@ -14,19 +15,20 @@ export default class AuthController extends BaseController {
   /**
    * check user sign status
    */
-  //   auth = (req: Request, res: Response) => {
-  //     setTimeout(() => res.send({ status: "ok" }), 1000);
-  //   };
+  isLogin = (req: Request, res: Response) => {
+    const session = req.session as Express.Session;
+    res.send({ user: session.user });
+  };
 
   /**
    * signId
    */
   signIn = (req: Request, res: Response) => {
-    const { username, password } = req.body;
+    const { user_name, user_pwd } = req.body;
     const result: BaseResult = { type: "fail" };
-    if (username && password) {
+    if (user_name && user_pwd) {
       this.authService
-        .queryUser(username, password)
+        .queryUser(user_name, user_pwd)
         .then(data => {
           if (data) {
             result.items = data;
@@ -49,6 +51,7 @@ export default class AuthController extends BaseController {
             log("save user to session", session);
           } else {
             result.type = "fail";
+            result.msg = "用户名或密码错误！";
           }
           res.send(result);
         })
