@@ -30,7 +30,7 @@ export const config = {
     }
   },
   api: {
-    // ceph: "http://10.240.217.77/" // 30mins
+    // ceph: "http://10.240.217.77/" //
     ceph: "http://10.240.217.140/"
   }
 };
