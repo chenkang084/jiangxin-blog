@@ -1,13 +1,13 @@
 export const config = {
   port: 9001,
-  debug: true,
-  console: false,
+  debug: false,
+  console: true,
   bodyLimit: "100kb",
   corsHeaders: ["Link"],
   session_secret: "reactAdmin",
   db: {
     mysql: {
-      enable: false,
+      enable: true,
       opts: {
         host: "localhost",
         user: "root",
@@ -19,15 +19,18 @@ export const config = {
     mongoose: {
       enable: false,
       url: "mongodb://127.0.0.1/node_club_dev",
-      opts: {
-        useMongoClient: true,
-        poolSize: 4
-      }
+      opts: { useMongoClient: true, poolSize: 4 }
     },
-    redis: { port: 6379, host: "127.0.0.1", db: 0, pass: "", ttl: 60 * 30 }
+    redis: {
+      port: 6379,
+      host: "127.0.0.1",
+      db: 0,
+      pass: "",
+      ttl: 60 * 60 * 24 // s
+    }
   },
-  components: {
-    // ceph: "http://10.240.217.77/" // 30mins
+  api: {
+    // ceph: "http://10.240.217.77/" //
     ceph: "http://10.240.217.140/"
   }
 };

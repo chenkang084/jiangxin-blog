@@ -16,7 +16,7 @@ path=`pwd`app/ts-express
 
 echo $path
 cd ${path}
-npm run prod
+# npm run prod
 
 time=`date "+%Y-%m-%d %H:%M:%S"` 
 echo ${path}"/scripts/shell/log.txt"
