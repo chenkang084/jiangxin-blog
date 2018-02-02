@@ -16,13 +16,13 @@ export default () => {
       const session = req.session as Express.Session;
 
       log(req.url);
-      log("session.user", session.user);
+      log("session.user", session && session.user);
 
       // sign api need not go through check sign status
       if (req.url && ignoreApis.indexOf(req.url) > -1) {
         next();
       } else {
-        if (!session.user) {
+        if (!session || !session.user) {
           await delay(1000);
           res.sendStatus(401);
         } else {
