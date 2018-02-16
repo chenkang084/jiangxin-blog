@@ -5,14 +5,14 @@ console.log(config.emailServer);
 
 const transporter = nodemailer.createTransport(config.emailServer);
 
-interface emailOption {
+interface EmailOption {
   from: string;
   to: string;
   subject: string;
   text: string;
 }
 
-const sendEmail = function(opts: emailOption) {
+const sendEmail = function(opts: EmailOption) {
   new Promise((resolve, reject) => {
     transporter.sendMail(opts, function(error, info) {
       if (error) {

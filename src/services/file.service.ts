@@ -21,4 +21,6 @@ const writeFile = function(
   });
 };
 
-writeFile(articlePath, "test.html", "hehesss");
+export { writeFile };
+
+// writeFile(articlePath, "test.html", "hehesss");

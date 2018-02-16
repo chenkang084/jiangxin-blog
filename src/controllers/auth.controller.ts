@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import BaseController from "./base.controller";
 import { log } from "../utils/common";
-import { successResult, failResult } from "../utils/error.util";
 import { BaseResult } from "../pojos/baseResult";
 import AuthService from "../services/auth.service";
 import config from "../config";
