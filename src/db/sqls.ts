@@ -18,7 +18,7 @@ const sqls = {
   article_update:
     "UPDATE article SET abstract = ? ,update_time = now() WHERE id = ?",
   article_insert:
-    "INSERT into article (title,abstract,create_time,update_time,author) values (?,?,now(),now(),?)",
+    "INSERT into article (title,abstract,create_time,update_time,author,cover_img) values (?,?,now(),now(),?,?)",
   article_list: "SELECT * from article"
 };
 
