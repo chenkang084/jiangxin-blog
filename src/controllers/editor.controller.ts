@@ -14,10 +14,16 @@ export default class EditorController extends BaseController {
   }
 
   saveArticle = async (req: Request, res: Response) => {
-    const { title, abstract, author, content } = req.body;
+    const { title, abstract, author, content, coverImg } = req.body;
     const result: BaseResult = { type: "fail" };
     try {
-      await this.editorService.saveArticle(title, abstract, author);
+      await this.editorService.saveArticle({
+        title,
+        abstract,
+        author,
+        content,
+        coverImg
+      });
       await writeFile(
         path.join(__dirname, "../articles"),
         title + ".html",

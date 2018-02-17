@@ -24,6 +24,7 @@ export default () => {
       } else {
         if (!session || !session.user) {
           await delay(1000);
+          res.cookie("sign", false, { httpOnly: true });
           res.sendStatus(401);
         } else {
           next();
