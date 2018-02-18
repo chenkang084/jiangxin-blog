@@ -10,5 +10,7 @@ export default (app: express.Express) => {
 
   router.get("/articles", editorController.articleList);
 
+  router.get("/article/:id", editorController.articleDetail);
+
   app.use("/api/editor", router);
 };

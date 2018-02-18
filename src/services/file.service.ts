@@ -14,13 +14,34 @@ const writeFile = function(
       });
       out.write(content);
       out.end();
-      resolve("ok");
+      out.on("finish", () => {
+        resolve("ok");
+      });
     } catch (error) {
       reject(error);
     }
   });
 };
 
-export { writeFile };
+const readFile = function(filepath: string, filename: string) {
+  return new Promise((resolve, reject) => {
+    try {
+      let content: string = "";
+      const stream = fs.createReadStream(path.join(filepath, filename), {
+        encoding: "utf8"
+      });
+      stream.on("end", () => {
+        resolve(content);
+      });
+      stream.on("data", chunk => {
+        content += chunk;
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export { writeFile, readFile };
 
 // writeFile(articlePath, "test.html", "hehesss");
