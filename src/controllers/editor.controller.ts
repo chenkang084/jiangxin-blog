@@ -48,4 +48,18 @@ export default class EditorController extends BaseController {
       result.msg = error;
     }
   };
+
+  articleDetail = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result: BaseResult = { type: "fail" };
+    try {
+      const article = await this.editorService.queryArtileDetailById(id);
+      result.items = article;
+      result.type = "success";
+      res.send(result);
+    } catch (error) {
+      result.msg = error;
+      res.send(result);
+    }
+  };
 }

@@ -14,7 +14,8 @@ const sqls = {
     "update user SET user_name =?,user_pwd=?,type=?,update_time=now() WHERE id=?",
 
   // artile
-  article_get: "SELECT id FROM article WHERE title =?",
+  article_getByTitle: "SELECT id FROM article WHERE title =?",
+  article_getById: "SELECT * FROM article WHERE id =?",
   article_update:
     "UPDATE article SET abstract = ? ,update_time = now() WHERE id = ?",
   article_insert:
