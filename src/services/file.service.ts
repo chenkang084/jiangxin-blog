@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-const articlePath = path.join(__dirname, "../articles");
+const articlePath = path.join(__dirname, "../../articles");
 
 const writeFile = function(
   filepath: string,

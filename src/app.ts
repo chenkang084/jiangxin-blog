@@ -20,15 +20,15 @@ const app = express();
 app.use(compression());
 
 // enable cors request
-// app.use(
-//   cors({
-//     // exposedHeaders: config.corsHeaders,
-//     credentials: true
-//   })
-// );
+app.use(
+  cors({
+    // exposedHeaders: config.corsHeaders,
+    credentials: true
+  })
+);
 
 // set public path
-app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(express.static(path.resolve(__dirname, "../ui")));
 // set views
 app.set("views", path.resolve(__dirname, "../views"));
 app.set("view engine", "ejs");

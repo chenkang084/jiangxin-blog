@@ -9,7 +9,7 @@ export default () => {
     console.log("html middle", req.url);
 
     if (req.method === "GET" && req.url.indexOf("api") < 0) {
-      res.sendFile(path.resolve(__dirname, "../../public", "index.html"));
+      res.sendFile(path.resolve(__dirname, "../../ui", "index.html"));
     } else {
       next();
     }

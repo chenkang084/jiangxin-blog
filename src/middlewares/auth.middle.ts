@@ -4,7 +4,12 @@ import config from "../config";
 import { log } from "../utils/common";
 import { delay } from "../utils/delay.util";
 
-const ignoreApis = ["/api/auth/signIn", "api/auth/loginOut"];
+const ignoreApis = [
+  /api\/auth\/signIn/,
+  /\/api\/auth\/loginOut/,
+  /\/api\/editor\/articles/,
+  /api\/editor\/article\/./
+];
 
 export default () => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +24,7 @@ export default () => {
       log("session.user", session && session.user);
 
       // sign api need not go through check sign status
-      if (req.url && ignoreApis.indexOf(req.url) > -1) {
+      if (req.url && ignoreApis.filter(reg => reg.test(req.url)).length > 0) {
         next();
       } else {
         if (!session || !session.user) {
