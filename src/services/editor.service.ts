@@ -76,8 +76,24 @@ export default class EditorService extends BaseService {
   };
 
   queryArticleList = async () => {
-    return await handleFuntionError(() => {
-      return mysqlQuery.call(this, sqls.article_list);
+    return await handleFuntionError(async () => {
+      const { data: articleList } = await mysqlQuery.call(
+        this,
+        sqls.article_list
+      );
+      if (articleList && articleList.length > 0) {
+        return articleList.map((article: any) => {
+          article.create_time = moment(article.create_time).format(
+            "YYYY-MM-DD HH:mm"
+          );
+          article.update_time = moment(article.update_time).format(
+            "YYYY-MM-DD HH:mm"
+          );
+          return article;
+        });
+      } else {
+        return {};
+      }
     });
   };
 

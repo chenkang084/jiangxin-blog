@@ -6,7 +6,7 @@ import { Application } from "express";
 // export { apiMiddle, authMiddle, htmlMiddle };
 
 export default (app: Application) => {
+  app.use(htmlMiddle());
   app.use(authMiddle());
-  // app.use(htmlMiddle());
   // app.use(apiMiddle());
 };

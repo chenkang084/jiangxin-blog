@@ -40,7 +40,7 @@ export default class EditorController extends BaseController {
   articleList = async (req: Request, res: Response) => {
     const result: BaseResult = { type: "fali" };
     try {
-      const { data: articleList } = await this.editorService.queryArticleList();
+      const articleList = await this.editorService.queryArticleList();
       result.items = articleList;
       result.type = "success";
       res.send(result);

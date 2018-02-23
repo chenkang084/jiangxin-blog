@@ -20,7 +20,7 @@ const sqls = {
     "UPDATE article SET abstract = ? ,update_time = now() WHERE id = ?",
   article_insert:
     "INSERT into article (title,abstract,create_time,update_time,author,cover_img) values (?,?,now(),now(),?,?)",
-  article_list: "SELECT * from article"
+  article_list: "SELECT * from article order by update_time DESC"
 };
 
 export default sqls;

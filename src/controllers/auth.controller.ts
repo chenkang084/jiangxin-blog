@@ -54,8 +54,8 @@ export default class AuthController extends BaseController {
           }
           res.send(result);
         })
-        .catch(err => {
-          result.msg = err;
+        .catch(error => {
+          result.msg = error.message || error;
           result.type = "fail";
           res.send(result);
         });
@@ -69,7 +69,7 @@ export default class AuthController extends BaseController {
    */
   signOut = (req: Request, res: Response) => {
     const session = req.session as Express.Session;
-    session.destroy(err => log(err));
+    session.destroy(error => log(error));
     res.clearCookie(config.session_secret, { path: "/" });
     res.sendStatus(200);
   };
