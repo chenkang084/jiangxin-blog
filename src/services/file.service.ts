@@ -12,7 +12,7 @@ const writeFile = function(
       const out = fs.createWriteStream(path.join(filepath, filename), {
         encoding: "utf8"
       });
-      out.write(content);
+      out.write(convertToWxHtml(content));
       out.end();
       out.on("finish", () => {
         resolve("ok");
@@ -21,6 +21,32 @@ const writeFile = function(
       reject(error);
     }
   });
+};
+
+const convertToWxHtml = function(content: string): string {
+  const temp = `<html>
+<head>
+    <meta name="referrer" content="never">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
+</head>
+<body>${content}</body>
+</html>
+`;
+  return temp;
+};
+
+const convertWxImage = function(content: string): string {
+  if (
+    content &&
+    content.indexOf("640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1") >
+      -1
+  ) {
+    // content = content.replace(/640\?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1/, "");
+    //   // content = content.replace(/640\?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1/, "640?wx_fmt=png&tp=webp");
+    //   // content = content.replace(/640\?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1/, "640?wx_fmt=png&amp;tp=webp&amp;");
+    //   return convertWxImage(content);
+  }
+  return content;
 };
 
 const readFile = function(filepath: string, filename: string) {
