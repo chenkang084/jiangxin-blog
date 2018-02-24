@@ -28,7 +28,7 @@ app.use(compression());
 // );
 
 // set public path
-app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(express.static(path.resolve(__dirname, "../static")));
 // set views
 app.set("views", path.resolve(__dirname, "../views"));
 app.set("view engine", "ejs");

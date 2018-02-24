@@ -58,3 +58,28 @@ service cron start
 ## session,cookie,redis
 - **session**:session是保存到服务器端的key,value形式的存储，在本文使用redis，可以将session中保存的key，value形式的数据保存到redis中，即使是服务器临时宕机，重启之后，之前保存的session信息也不会丢失。
 - **cookie**：是保存在client端的key，value数据。
+- 在后台启动redis-server：`redis-server --daemonize yes`
+
+## mysql 相关问题
+- **中文乱码**:进入数据库，执行`show variables like "char%"`查看字符编码,发现 latin1
+```
+character_set_database latin1 
+character_set_server latin1 
+```
+解决办法如下：
+> 1.修改mysql配置文件，/etc/mysql/my.cnf,如果没有该文件，查看是否存在`/etc/mysql/mysql.conf.d/mysqld.cnf`,如果有，请对应添加如下配置：
+```
+[client]下 
+
+default-character-set=utf8 
+
+[mysqld] 
+
+default-storage-engine=INNODB 
+
+character-set-server=utf8 
+
+collation-server=utf8_general_ci 
+```
+2、重启mysql服务`/etc/init.d/mysql restart`  
+3、重新执行对应sql脚本，如`mysql -uroot -p reactAdmin < reactadmin.sql`

@@ -21,16 +21,16 @@ export const config = {
       url: "mongodb://127.0.0.1/node_club_dev",
       opts: { useMongoClient: true, poolSize: 4 }
     },
-    redis: {
-      port: 6379,
-      host: "127.0.0.1",
-      db: 0,
-      pass: "",
-      ttl: 60 * 60 * 24 // s
-    }
+    redis: { port: 6379, host: "127.0.0.1", db: 0, pass: "", ttl: 60 * 60 * 24 }
   },
   api: {
-    // ceph: "http://10.240.217.77/" //
+    // ceph: "http://10.240.217.77/" // // s
     ceph: "http://10.240.217.140/"
+  },
+  emailServer: {
+    service: "smtp.163.com",
+    host: "smtp.163.com",
+    port: 465,
+    auth: { user: "chenkang084@163.com", pass: "084chenkang,Sm" }
   }
 };

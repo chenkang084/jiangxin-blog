@@ -106,7 +106,7 @@ export default class EditorService extends BaseService {
       if (articleList && articleList.length > 0) {
         const article = articleList[0];
         const content = await readFile(
-          path.join(__dirname, "../articles/"),
+          path.join(__dirname, "../../static/articles/"),
           article.title + ".html"
         );
         article.content = content;
@@ -119,7 +119,7 @@ export default class EditorService extends BaseService {
         return article;
       }
     } catch (error) {
-      Promise.reject(error);
+      return Promise.reject(error);
     }
   };
 }

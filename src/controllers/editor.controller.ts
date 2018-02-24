@@ -25,7 +25,7 @@ export default class EditorController extends BaseController {
         coverImg
       });
       await writeFile(
-        path.join(__dirname, "../articles"),
+        path.join(__dirname, "../../static/articles"),
         title + ".html",
         content
       );
@@ -46,6 +46,7 @@ export default class EditorController extends BaseController {
       res.send(result);
     } catch (error) {
       result.msg = error;
+      res.send(result);
     }
   };
 
