@@ -10,13 +10,13 @@ echo "mysql-server-5.7 mysql-server/root_password_again password root" | debconf
 apt-get -y install mysql-server-5.7
 
 echo '=============change mysql encode to utf8==============='
-node ./changeMysqlEncode.js
+node /app/scripts/shell/changeMysqlEncode.js
 chmod -R 777 /var/lib/mysql
 /etc/init.d/mysql restart
 
 echo '=============execute mysql script==============='
-mysql -uroot -proot < ../sqls/createDb.sql
-mysql -uroot -proot reactAdmin < ../sqls/reactadmin.sql
+mysql -uroot -proot < /app/scripts/sqls/createDb.sql
+mysql -uroot -proot reactAdmin < /app/scripts/sqls/reactadmin.sql
 
 echo '=============start redis server==============='
 redis-server --daemonize yes

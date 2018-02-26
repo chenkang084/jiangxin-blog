@@ -1,5 +1,9 @@
-# ts-express
-A nodejs backend framework based on express and writes via typescript.
+# jiangxin-blog
+jiangxin-blog shares lots of delish foods,and waits for you tries.  
+The sourcecode depends that nodejs backend framework based on express and writes via typescript.
+
+## docker
+linux:`./scripts/shell/dockerEnv.sh`
 
 ## setup your local environment
 >   npm run setup <br>
