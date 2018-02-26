@@ -5,12 +5,14 @@ import { log } from "../utils/common";
 
 const mysqlDb: Promise<mysql.IPool> | undefined = config.db.mysql.enable
   ? new Promise((resolve, reject) => {
-      log("connect to mysql");
-      resolve(
-        mysql.createPool({
-          ...config.db.mysql.opts
-        })
-      );
+      try {
+        const iPool = mysql.createPool({ ...config.db.mysql.opts });
+        log("connected to mysql");
+        resolve(iPool);
+      } catch (error) {
+        log("failed to mysql", error);
+        reject(error);
+      }
     })
   : undefined;
 

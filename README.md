@@ -74,11 +74,8 @@ character_set_server latin1
 default-character-set=utf8 
 
 [mysqld] 
-
 default-storage-engine=INNODB 
-
 character-set-server=utf8 
-
 collation-server=utf8_general_ci 
 ```
 2、重启mysql服务`/etc/init.d/mysql restart`  
