@@ -27,8 +27,9 @@ RUN  rm -rf /var/lib/apt/lists/*
 # COPY . /app
 WORKDIR /app
 
-RUN npm install --registry=https://registry.npm.taobao.org
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 
-# EXPOSE 8000
+# EXPOSE 9001
 
+# CMD ["/bin/bash", "/scripts/shell/start.sh"]  
 # CMD ["npm", "start"]  

@@ -1,5 +1,9 @@
-# ts-express
-A nodejs backend framework based on express and writes via typescript.
+# jiangxin-blog
+jiangxin-blog shares lots of delish foods,and waits for you tries.  
+The sourcecode depends that nodejs backend framework based on express and writes via typescript.
+
+## docker
+linux:`./scripts/shell/dockerEnv.sh`
 
 ## setup your local environment
 >   npm run setup <br>
@@ -74,11 +78,8 @@ character_set_server latin1
 default-character-set=utf8 
 
 [mysqld] 
-
 default-storage-engine=INNODB 
-
 character-set-server=utf8 
-
 collation-server=utf8_general_ci 
 ```
 2、重启mysql服务`/etc/init.d/mysql restart`  

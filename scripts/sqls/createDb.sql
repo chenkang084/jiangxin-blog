@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS reactAdmin;
+
+CREATE DATABASE reactAdmin;
