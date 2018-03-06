@@ -15,8 +15,7 @@ export default class EditorController extends BaseController {
 
   saveArticle = async (req: Request, res: Response) => {
     const { title, abstract, author, content, coverImg } = req.body;
-    const result: BaseResult = { type: "fail" };
-    try {
+    this.unifyResult(res, async () => {
       await this.editorService.saveArticle({
         title,
         abstract,
@@ -29,38 +28,19 @@ export default class EditorController extends BaseController {
         title + ".html",
         content
       );
-      result.type = "success";
-      res.send(result);
-    } catch (error) {
-      result.msg = error;
-      res.send(result);
-    }
+    });
   };
 
-  articleList = async (req: Request, res: Response) => {
-    const result: BaseResult = { type: "fail" };
-    try {
-      const articleList = await this.editorService.queryArticleList();
-      result.items = articleList;
-      result.type = "success";
-      res.send(result);
-    } catch (error) {
-      result.msg = error;
-      res.send(result);
-    }
+  articleList = (req: Request, res: Response) => {
+    this.unifyResult(res, () => {
+      return this.editorService.queryArticleList();
+    });
   };
 
   articleDetail = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result: BaseResult = { type: "fail" };
-    try {
-      const article = await this.editorService.queryArtileDetailById(id);
-      result.items = article;
-      result.type = "success";
-      res.send(result);
-    } catch (error) {
-      result.msg = error;
-      res.send(result);
-    }
+    this.unifyResult(res, () => {
+      return this.editorService.queryArtileDetailById(id);
+    });
   };
 }

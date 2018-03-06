@@ -21,3 +21,18 @@ const mongooseDb: mongoose.Connection | undefined = config.db.mongoose.enable
   : undefined;
 
 export { mysqlDb, mongooseDb };
+
+const connection: mysql.IConnection = mysql.createConnection({
+  ...config.db.mysql.opts
+});
+connection.connect();
+
+// connection.beginTransaction();
+
+const pool: mysql.IPool = mysql.createPool({
+  ...config.db.mysql.opts
+});
+
+// pool.getConnection((error, connection) => {
+//   connection.beginTransaction();
+// });

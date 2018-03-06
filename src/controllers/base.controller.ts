@@ -1,10 +1,19 @@
 // import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
+import { BaseResult } from "../pojos/baseResult";
 
 export default abstract class BaseController {
-
-  // public abstract db: Db;
-  // public abstract app: Express;
-  // protected result: { type: string, items?: any[], msg?: any } = { type: "success" };
-
+  protected async unifyResult(res: Response, cb: () => Promise<any>) {
+    const result: BaseResult = { type: "fail" };
+    try {
+      const items = await cb();
+      result.type = "success";
+      if (items) {
+        result.items = items;
+      }
+    } catch (error) {
+      result.msg = error;
+    }
+    res.send(result);
+  }
 }
