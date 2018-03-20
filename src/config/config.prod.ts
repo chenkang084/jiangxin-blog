@@ -31,6 +31,6 @@ export const config = {
     service: "smtp.163.com",
     host: "smtp.163.com",
     port: 465,
-    auth: { user: "chenkang084@163.com", pass: "084chenkang,Sm" }
+    auth: { user: "chenkang084@163.com", pass: "" }
   }
 };
