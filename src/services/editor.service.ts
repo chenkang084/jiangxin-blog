@@ -35,13 +35,83 @@ export default class EditorService extends BaseService {
     coverImg
   }: Article) => {
     try {
-      const { data: article } = await this.queryArticleByTitile(title);
-      console.log(article);
-      if (article && article.length > 0) {
-        await this.updateArticleToDb(title, abstract, author, article[0].id);
-      } else {
-        await this.saveArticleToDb(title, abstract, author, coverImg);
-      }
+      const mysqlPool = (await this.mysql) as mysql.IPool;
+      mysqlPool.getConnection((error, connection) => {
+        if (error) {
+          return Promise.reject(error);
+        }
+
+        connection.beginTransaction(transactionError => {
+          if (transactionError) {
+            return Promise.reject(transactionError);
+          }
+
+          connection.query(
+            sqls.article_getByTitle,
+            [title],
+            (titleError, result, fields) => {
+              if (titleError) {
+                return connection.rollback(() => {
+                  throw titleError;
+                });
+              }
+
+              const { data: article } = result;
+              if (article && article.length > 0) {
+                connection.query(
+                  sqls.article_update,
+                  [abstract, article[0].id],
+                  updateError => {
+                    if (updateError) {
+                      return connection.rollback(() => {
+                        throw updateError;
+                      });
+                    }
+                  }
+                );
+                // this.updateArticleToDb(title, abstract, author, article[0].id);
+              } else {
+                connection.query(
+                  sqls.article_insert,
+                  [title, abstract, author, coverImg],
+                  insertError => {
+                    if (insertError) {
+                      return connection.rollback(() => {
+                        throw insertError;
+                      });
+                    }
+                  }
+                );
+                // this.saveArticleToDb(title, abstract, author, coverImg);
+              }
+
+              connection.commit(commitError => {
+                if (commitError) {
+                  return connection.rollback(() => {
+                    throw commitError;
+                  });
+                }
+
+                console.log("success!");
+              });
+            }
+          );
+
+          // const { data: article } = await this.queryArticleByTitile(title);
+          // if (article && article.length > 0) {
+          //   await this.updateArticleToDb(
+          //     title,
+          //     abstract,
+          //     author,
+          //     article[0].id
+          //   );
+          // } else {
+          //   await this.saveArticleToDb(title, abstract, author, coverImg);
+          // }
+
+          // connection.commit();
+        });
+      });
     } catch (error) {
       console.log(error);
       return Promise.reject(error);
@@ -117,6 +187,8 @@ export default class EditorService extends BaseService {
           "YYYY-MM-DD HH:mm"
         );
         return article;
+      } else {
+        return {};
       }
     } catch (error) {
       return Promise.reject(error);

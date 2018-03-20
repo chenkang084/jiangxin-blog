@@ -1,5 +1,5 @@
 node_modules
 dist
-.vscode
+.vscode/ftp-sync*
 #public
 src/config/config.dev.ts
