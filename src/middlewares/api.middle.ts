@@ -1,32 +1,54 @@
 import { Express, Router, Request, Response, NextFunction } from "express";
 import { log } from "../utils/common";
-import { cephSevice } from "../services/axios.service";
+import { openstackService } from "../services/axios.service";
+import { login, logout } from "../services/auth.service";
+const authPrefix_Regex = /^\/auth\/+/;
+let tokenHeaders = {
+  "X-auth-token": "",
+  "X-subject-token": ""
+};
 
 export default () => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    log("auth middle");
+  return async (req: Request, res: Response, next: NextFunction) => {
+    log("api middle");
 
     const url = req.url;
+    console.log("req url is:", url);
+    if (authPrefix_Regex.exec(url)) {
+      let $url = url.replace(authPrefix_Regex, "").trim();
 
-    // console.log(req.headers.cookie);
+      if ($url === "identity/v3/auth/tokens") {
+        const opts = {
+          url: req.url.replace(authPrefix_Regex, ""),
+          method: req.method,
+          data: req.body,
+          headers: tokenHeaders["X-auth-token"]
+            ? { ...req.headers, ...tokenHeaders }
+            : req.headers
+        };
 
-    if (/\/api\/+/.exec(url)) {
-      cephSevice
-        .get("dashboard/api/ceph/clusters/", {
-          headers: {
-            // Cookie: req.headers.cookie
-          }
-        })
-        .then(result => {
-          res.send(result.data);
-        })
-        .catch(error => {
-          console.log(error.message);
-          res.send(error.message);
-        });
+        if (req.method === "POST") {
+          login(opts, tokenHeaders, res);
+        } else if (req.method === "DELETE") {
+          logout(opts, tokenHeaders, res);
+        }
+      }
     } else {
-      next();
+      try {
+        const result = await openstackService({
+          url: req.url.replace(/^\/api\//, ""),
+          method: req.method,
+          data: req.body,
+          headers: tokenHeaders["X-auth-token"]
+            ? { ...req.headers, ...tokenHeaders }
+            : req.headers
+        });
+
+        res.send({ type: "success", items: result.data });
+      } catch (error) {
+        console.log(error);
+        res.send({ type: "failed", msg: error.message || error });
+      }
     }
-    // next();
   };
 };

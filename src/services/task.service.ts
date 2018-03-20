@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { log } from "../utils/common";
-import { cephSevice } from "./axios.service";
+import { openstackService } from "./axios.service";
 import * as socketIo from "socket.io";
 const deepEqual = require("deep-equal");
 
@@ -14,24 +14,24 @@ export async function queryHomeAlertInfo(
   agent: SocketIO.Socket,
   data: any
 ) {
-  autoTasks(
-    () => {
-      return cephSevice.get(
-        `dashboard/api/ceph/clusters/${data.clusterId}/statistics/`,
-        {
-          headers: {
-            Cookie: agent.request.headers.cookie
-          }
-        }
-      );
-    },
-    newData => {
-      agent.emit("homePage/clusterInfo", newData);
-    },
-    newData => {
-      io.emit("homePage/clusterInfo", newData);
-    }
-  );
+  // autoTasks(
+  //   () => {
+  //     return openstackService.get(
+  //       `dashboard/api/ceph/clusters/${data.clusterId}/statistics/`,
+  //       {
+  //         headers: {
+  //           Cookie: agent.request.headers.cookie
+  //         }
+  //       }
+  //     );
+  //   },
+  //   newData => {
+  //     agent.emit("homePage/clusterInfo", newData);
+  //   },
+  //   newData => {
+  //     io.emit("homePage/clusterInfo", newData);
+  //   }
+  // );
 }
 
 /**

@@ -12,7 +12,7 @@ export default abstract class BaseController {
         result.items = items;
       }
     } catch (error) {
-      result.msg = error;
+      result.msg = error.message || error;
     }
     res.send(result);
   }

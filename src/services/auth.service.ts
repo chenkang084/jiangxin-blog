@@ -1,21 +1,34 @@
-import * as mysql from "mysql";
-import BaseService from "./base.service";
-import { genHash, compareHash } from "../utils/bcrypt";
-import { handleFuntionError } from "../utils/error.util";
-import { mysqlQuery } from "../utils/sql.util";
-import sqls from "../db/sqls";
+import { openstackService, OpenstackServiceOpts } from "./axios.service";
+import { Request, Response } from "express";
 
-export default class AuthService extends BaseService {
-  queryUser = async (username: string, userpwd: string) => {
-    const result = await handleFuntionError(() => {
-      return mysqlQuery.call(this, sqls.auth_queryUser, [username]);
-    });
+export async function login(
+  opts: OpenstackServiceOpts,
+  tokenHeaders: any,
+  res: Response
+) {
+  try {
+    const result = await openstackService(opts);
+    tokenHeaders["X-auth-token"] = result.headers["x-subject-token"];
+    tokenHeaders["X-subject-token"] = result.headers["x-subject-token"];
+    res.send({ type: "success", items: result.data });
+  } catch (error) {
+    console.log(error);
+    res.send({ type: "failed", msg: error.message || error });
+  }
+}
 
-    if (result && result.data && result.data.length > 0) {
-      const user = result.data[0];
-      if (compareHash(userpwd, user.user_pwd)) {
-        return { id: user.id, user_name: user.user_name };
-      }
-    }
-  };
+export async function logout(
+  opts: OpenstackServiceOpts,
+  tokenHeaders: any,
+  res: Response
+) {
+  try {
+    const result = await openstackService(opts);
+    tokenHeaders["X-auth-token"] = "";
+    tokenHeaders["X-subject-token"] = "";
+    res.send({ type: "success" });
+  } catch (error) {
+    console.log(error);
+    res.send({ type: "failed", msg: error.message || error });
+  }
 }

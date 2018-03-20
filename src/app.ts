@@ -53,9 +53,13 @@ const RedisStore = require("connect-redis")(session);
 app.use(
   session({
     secret: config.session_secret,
-    store: new RedisStore(config.db.redis),
+    store: config.db.redis.enable ? new RedisStore(config.db.redis) : "",
     resave: false,
-    saveUninitialized: false
+    name: config.session_secret,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 30 // 设置session的过期时间为30mins
+    }
   })
 );
 
@@ -63,11 +67,6 @@ app.use(
 app.use(cookieParser(config.session_secret));
 
 middleware(app);
-
-app.use("/test", (req, res) => {
-  res.render("test", { test: "xxxxxxxx" });
-});
-
 routers(app);
 
 const server = http.createServer(app);

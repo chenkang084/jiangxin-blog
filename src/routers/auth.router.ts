@@ -1,15 +1,15 @@
 import * as express from "express";
-import AuthController from "../controllers/auth.controller";
+// import AuthController from "../controllers/auth.controller";
 
 export default (app: express.Express) => {
-  const authController = new AuthController();
+  // const authController = new AuthController();
 
   const router = express.Router();
-  router.get("/userInfo", authController.userInfo);
+  // router.get("/userInfo", authController.userInfo);
 
-  router.post("/signIn", authController.signIn);
+  // router.post("/signIn", authController.signIn);
 
-  router.put("/signOut", authController.signOut);
+  // router.put("/signOut", authController.signOut);
 
   //   router.delete("/userId/:userId", userMgmtController.deleteUser);
 
