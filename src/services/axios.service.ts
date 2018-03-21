@@ -21,12 +21,7 @@ export interface OpenstackServiceOpts {
   method: string;
   url: string;
   data?: any;
-  headers: any;
-}
-
-interface HandleEvent {
-  beforeHandle?: (parms: any) => {};
-  afterHandle?: (parms: any) => {};
+  headers?: any;
 }
 
 const tokenHeaders = {
@@ -34,30 +29,35 @@ const tokenHeaders = {
   "X-subject-token": ""
 };
 
-async function openstackService(
-  { headers, method, url, data }: OpenstackServiceOpts,
-  handle?: HandleEvent
-) {
+async function openstackService({
+  headers,
+  method,
+  url,
+  data
+}: OpenstackServiceOpts) {
   method = method.toLowerCase();
   try {
-    handle && handle.beforeHandle && handle.beforeHandle(tokenHeaders);
-
     let result;
     switch (method) {
       case "get":
         result = await openstackAxios.get(url, { headers });
+        break;
       case "post":
-        result = await openstackAxios.post(url, data, { headers });
+        result = await openstackAxios.post(url, data);
+        break;
       case "delete":
         result = await openstackAxios.delete(url, { headers });
+        break;
       case "put":
         result = await openstackAxios.put(url, data, { headers });
+        break;
       case "patch":
         result = await openstackAxios.patch(url, data, { headers });
+        break;
       default:
         result = await openstackAxios.get(url);
+        break;
     }
-    handle && handle.afterHandle && handle.afterHandle(tokenHeaders);
 
     return result;
   } catch (error) {

@@ -1,6 +1,9 @@
 import { Express, Router, Request, Response } from "express";
 import { BaseResult } from "../pojos/baseResult";
 
+// shared headers for all controller 
+let headers = Object.create(null);
+
 export default abstract class BaseController {
   protected async unifyResult(res: Response, cb: () => Promise<any>) {
     const result: BaseResult = { type: "fail" };
@@ -15,4 +18,10 @@ export default abstract class BaseController {
     }
     res.send(result);
   }
+
+  // add or delete token headers
+  protected processHeaders = (tokenHeaders?: object, req?: Request): object => {
+    headers = { ...headers, ...tokenHeaders };
+    return headers;
+  };
 }
