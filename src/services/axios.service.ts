@@ -24,28 +24,42 @@ export interface OpenstackServiceOpts {
   headers: any;
 }
 
-async function openstackService({
-  headers,
-  method,
-  url,
-  data
-}: OpenstackServiceOpts) {
+interface HandleEvent {
+  beforeHandle?: (parms: any) => {};
+  afterHandle?: (parms: any) => {};
+}
+
+const tokenHeaders = {
+  "X-auth-token": "",
+  "X-subject-token": ""
+};
+
+async function openstackService(
+  { headers, method, url, data }: OpenstackServiceOpts,
+  handle?: HandleEvent
+) {
   method = method.toLowerCase();
   try {
+    handle && handle.beforeHandle && handle.beforeHandle(tokenHeaders);
+
+    let result;
     switch (method) {
       case "get":
-        return await openstackAxios.get(url, { headers });
+        result = await openstackAxios.get(url, { headers });
       case "post":
-        return await openstackAxios.post(url, data, { headers });
+        result = await openstackAxios.post(url, data, { headers });
       case "delete":
-        return await openstackAxios.delete(url, { headers });
+        result = await openstackAxios.delete(url, { headers });
       case "put":
-        return await openstackAxios.put(url, data, { headers });
+        result = await openstackAxios.put(url, data, { headers });
       case "patch":
-        return await openstackAxios.patch(url, data, { headers });
+        result = await openstackAxios.patch(url, data, { headers });
       default:
-        return await openstackAxios.get(url);
+        result = await openstackAxios.get(url);
     }
+    handle && handle.afterHandle && handle.afterHandle(tokenHeaders);
+
+    return result;
   } catch (error) {
     return Promise.reject(error.message || error);
   }

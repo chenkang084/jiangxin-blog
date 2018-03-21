@@ -2,7 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { log } from "../utils/common";
 import * as path from "path";
 
-const pathFilters = [/^\/auth\/+/, /^\/api\/+/];
+const pathFilters = [
+  // /^\/auth\/+/,
+  /^\/api\/+/
+];
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {

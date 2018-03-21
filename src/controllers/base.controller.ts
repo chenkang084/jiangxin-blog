@@ -1,4 +1,3 @@
-// import { Db } from "../db/initializeDb";
 import { Express, Router, Request, Response } from "express";
 import { BaseResult } from "../pojos/baseResult";
 

@@ -9,5 +9,5 @@ export default (app: Application) => {
   app.use(htmlMiddle());
   app.use(apiMiddle());
   // app.use(authMiddle());
-  
+
 };
