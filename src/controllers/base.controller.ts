@@ -1,7 +1,9 @@
 import { Express, Router, Request, Response } from "express";
 import { BaseResult } from "../pojos/baseResult";
 
-// shared headers for all controller 
+// shared headers for all controller
+
+// tslint:disable-next-line:no-null-keyword
 let headers = Object.create(null);
 
 export default abstract class BaseController {
