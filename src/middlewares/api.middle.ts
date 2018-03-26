@@ -1,6 +1,6 @@
 import { Express, Router, Request, Response, NextFunction } from "express";
 import { log } from "../utils/common";
-import { openstackService } from "../services/axios.service";
+import { openStackService } from "../services/axios.service";
 import { login, logout } from "../services/auth.service";
 const authPrefix_Regex = /^\/auth\/+/;
 const tokenHeaders = {
@@ -35,7 +35,7 @@ export default () => {
     //   }
     // } else {
     //   try {
-    //     const result = await openstackService({
+    //     const result = await openStackService({
     //       url: req.url.replace(/^\/api\//, ""),
     //       method: req.method,
     //       data: req.body,

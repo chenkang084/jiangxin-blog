@@ -9,15 +9,15 @@ const generateAxios = ($config: AxiosConfig) => {
   return axios.create($config);
 };
 
-const openstackAxios = generateAxios({
-  baseURL: config.api.openstack,
+const openStackAxios = generateAxios({
+  baseURL: config.api.openStack,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json"
   }
 });
 
-export interface OpenstackServiceOpts {
+interface OpenStackServiceOpts {
   method: string;
   url: string;
   data?: any;
@@ -29,40 +29,43 @@ const tokenHeaders = {
   "X-subject-token": ""
 };
 
-async function openstackService({
+async function openStackService({
   headers,
   method,
   url,
   data
-}: OpenstackServiceOpts) {
+}: OpenStackServiceOpts) {
   method = method.toLowerCase();
   try {
     let result;
     switch (method) {
       case "get":
-        result = await openstackAxios.get(url, { headers });
+        result = await openStackAxios.get(url, { headers });
         break;
       case "post":
-        result = await openstackAxios.post(url, data);
+        result = await openStackAxios.post(url, data);
         break;
       case "delete":
-        result = await openstackAxios.delete(url, { headers });
+        result = await openStackAxios.delete(url, { headers });
         break;
       case "put":
-        result = await openstackAxios.put(url, data, { headers });
+        result = await openStackAxios.put(url, data, { headers });
         break;
       case "patch":
-        result = await openstackAxios.patch(url, data, { headers });
+        result = await openStackAxios.patch(url, data, { headers });
         break;
       default:
-        result = await openstackAxios.get(url);
+        result = await openStackAxios.get(url);
         break;
     }
 
     return result;
   } catch (error) {
-    return Promise.reject(error.message || error);
+    return Promise.reject({
+      msg: error.message || error,
+      status: error.response ? error.response.status : 401
+    });
   }
 }
 
-export { openstackService };
+export { openStackService, OpenStackServiceOpts };

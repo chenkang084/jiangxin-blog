@@ -1,15 +1,18 @@
-import { openstackService, OpenstackServiceOpts } from "./axios.service";
+import { openStackService, OpenStackServiceOpts } from "./axios.service";
 import { Request, Response } from "express";
 
 export async function commonApiService(
-  opts: OpenstackServiceOpts,
+  opts: OpenStackServiceOpts,
   res: Response
 ) {
   try {
-    const result = await openstackService(opts);
+    const result = await openStackService(opts);
     res.send({ type: "success", items: result.data });
   } catch (error) {
-    console.log(error);
-    res.send({ type: "failed", msg: error.message || error });
+    setTimeout(() => {
+      console.log(error);
+    res.status(error.status);
+    res.send({ type: "failed", msg: error.msg || error });
+    }, 8000);
   }
 }

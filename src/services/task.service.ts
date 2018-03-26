@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { log } from "../utils/common";
-import { openstackService } from "./axios.service";
+import { openStackService } from "./axios.service";
 import * as socketIo from "socket.io";
 const deepEqual = require("deep-equal");
 
@@ -16,7 +16,7 @@ export async function queryHomeAlertInfo(
 ) {
   // autoTasks(
   //   () => {
-  //     return openstackService.get(
+  //     return openStackService.get(
   //       `dashboard/api/ceph/clusters/${data.clusterId}/statistics/`,
   //       {
   //         headers: {

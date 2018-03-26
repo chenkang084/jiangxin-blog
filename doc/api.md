@@ -1,8 +1,10 @@
 # lusca api list
 
-## auth
+## 1.auth
 
-    **login**:/api/identity/v3/auth/tokens  
+### login
+
+    url:/api/identity/v3/auth/tokens  
     method:"post"
     body:{
     "auth": {
@@ -42,7 +44,13 @@
                 },
                 "id": "9831161ac0244a2cbbb01f1ed7e60e20",
                 "name": "admin"
+                }
             }
         }
     }
-}
+
+### loginout
+
+    url:/api/identity/v3/auth/tokens  
+    method:"delete"
+    response:201

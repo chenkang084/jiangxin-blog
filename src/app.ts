@@ -20,12 +20,12 @@ const app = express();
 app.use(compression());
 
 // enable cors request
-// app.use(
-//   cors({
-//     // exposedHeaders: config.corsHeaders,
-//     credentials: true
-//   })
-// );
+app.use(
+  cors({
+    // exposedHeaders: config.corsHeaders,
+    credentials: true
+  })
+);
 
 // set public path
 app.use(express.static(path.resolve(__dirname, "../static")));
@@ -65,6 +65,10 @@ app.use(
 
 // cookie middleware must before session middleware
 app.use(cookieParser(config.session_secret));
+
+app.use("/api/test", (req, res) => {
+  res.send({"ok":"ok"});
+});
 
 middleware(app);
 routers(app);

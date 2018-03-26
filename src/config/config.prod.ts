@@ -30,7 +30,7 @@ export const config = {
       ttl: 60 * 60 * 24
     }
   },
-  api: { openstack: "http://10.240.217.222/" },
+  api: { openStack: "http://10.240.217.222/" },
   emailServer: {
     service: "smtp.163.com",
     host: "smtp.163.com",
