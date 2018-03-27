@@ -1,7 +1,7 @@
 import { openStackService, OpenStackServiceOpts } from './axios.service';
 import { Request, Response } from 'express';
 
-export async function login(opts: OpenStackServiceOpts, res: Response) {
+export async function login(opts: OpenStackServiceOpts) {
   try {
     const result = await openStackService(opts);
 
@@ -10,15 +10,18 @@ export async function login(opts: OpenStackServiceOpts, res: Response) {
       'X-Subject-Token': result.headers['x-subject-token'],
     });
 
-    res.send({ type: 'success', items: result.data });
+    return result.data;
   } catch (error) {
     console.log(error);
-    res.status(error.status);
-    res.send({ type: 'failed', msg: error.message || error });
+    return Promise.reject({
+      type: 'failed',
+      msg: error.message || error,
+      status: error.status || '',
+    });
   }
 }
 
-export async function logout(opts: OpenStackServiceOpts, res: Response) {
+export async function logout(opts: OpenStackServiceOpts) {
   try {
     const result = await openStackService(opts);
 
@@ -26,13 +29,13 @@ export async function logout(opts: OpenStackServiceOpts, res: Response) {
       'X-Auth-Token': '',
       'X-Subject-Token': '',
     });
-    res.send({ type: 'success' });
+    return result.data;
   } catch (error) {
     console.log(error);
-    res.status(error.status);
-    res.send({
+    return Promise.reject({
       type: 'failed',
       msg: error.message || error,
+      status: error.status || '',
     });
   }
 }

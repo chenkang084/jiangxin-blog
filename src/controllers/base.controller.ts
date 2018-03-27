@@ -1,17 +1,15 @@
-import { Express, Router, Request, Response } from "express";
-import { BaseResult } from "../pojos/baseResult";
-
-// shared headers for all controller
+import { Express, Router, Request, Response } from 'express';
+import { BaseResult } from '../pojos/baseResult';
 
 // tslint:disable-next-line:no-null-keyword
 let headers = Object.create(null);
 
 export default abstract class BaseController {
   protected async unifyResult(res: Response, cb: () => Promise<any>) {
-    const result: BaseResult = { type: "fail" };
+    const result: BaseResult = { status: 'fail' };
     try {
       const items = await cb();
-      result.type = "success";
+      result.status = 'ok';
       if (items) {
         result.items = items;
       }

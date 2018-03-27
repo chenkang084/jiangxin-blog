@@ -67,7 +67,7 @@ app.use(
 app.use(cookieParser(config.session_secret));
 
 app.use("/api/test", (req, res) => {
-  res.send({"ok":"ok"});
+  res.send({"ok": "ok"});
 });
 
 middleware(app);

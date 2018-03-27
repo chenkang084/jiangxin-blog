@@ -27,16 +27,25 @@ export default class AuthController extends BaseController {
       },
     };
 
-    login.call(this, { url, method: 'post', data }, res);
+    this.unifyResult(res, async () => {
+      return login.call(this, { url, method: 'post', data });
+    });
   };
 
   // sign out the app
   signOut = (req: Request, res: Response) => {
     const url = req.url.replace(/^\/auth\/+/, '');
-    logout.call(
-      this,
-      { url, method: 'delete', headers: this.processHeaders() },
-      res,
-    );
+    // logout.call(
+    //   this,
+    //   { url, method: 'delete', headers: this.processHeaders() },
+    //   res,
+    // );
+    this.unifyResult(res, async () => {
+      return logout.call(this, {
+        url,
+        method: 'delete',
+        headers: this.processHeaders(),
+      });
+    });
   };
 }
