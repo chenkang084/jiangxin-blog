@@ -11,8 +11,8 @@ export async function commonApiService(
   } catch (error) {
     setTimeout(() => {
       console.log(error);
-    res.status(error.status);
-    res.send({ type: "failed", msg: error.msg || error });
-    }, 8000);
+      res.status(error.status);
+      res.send({ type: "failed", msg: error.msg || error });
+    }, 3000);
   }
 }

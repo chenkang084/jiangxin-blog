@@ -5,8 +5,7 @@
 // }
 
 export interface BaseResult {
-  type: string;
+  status: string;
   msg?: any;
   items?: object;
 }
-
