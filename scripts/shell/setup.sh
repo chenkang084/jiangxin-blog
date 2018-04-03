@@ -23,3 +23,7 @@ redis-server --daemonize yes
 
 echo '=============install pm2 in global env==============='
 cnpm i pm2 -g
+
+echo "===========start the app==============="
+npm run setup
+npm run prod
