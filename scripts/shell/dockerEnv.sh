@@ -13,3 +13,6 @@ echo "===========start to build jx images by dockerfile==============="
 docker exec -ti jx /bin/bash /app/scripts/shell/setup.sh
 
 echo "congratulations,you docker env setup successfully!"
+
+echo "===========start the app==============="
+npm run prod

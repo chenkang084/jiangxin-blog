@@ -20,3 +20,6 @@ mysql -uroot -proot reactAdmin < /app/scripts/sqls/reactadmin.sql
 
 echo '=============start redis server==============='
 redis-server --daemonize yes
+
+echo '=============install pm2 in global env==============='
+cnpm i pm2 -g
