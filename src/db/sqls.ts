@@ -16,6 +16,7 @@ const sqls = {
   // artile
   article_getByTitle: "SELECT id FROM article WHERE title =?",
   article_getById: "SELECT * FROM article WHERE id =?",
+  article_delById: "DELETE FROM article WHERE id =?",
   article_update:
     "UPDATE article SET abstract = ? ,update_time = now() WHERE id = ?",
   article_insert:

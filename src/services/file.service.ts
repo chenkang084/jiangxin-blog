@@ -28,7 +28,6 @@ const convertToWxHtml = function(content: string): string {
 <head>
     <meta name="referrer" content="never">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
-    <style>span>img,p>img{max-width: 500px !important;};section[data-id]>section>p:first-child{width: 100%!important;}</style>
 </head>
 <body>${content}</body>
 </html>
