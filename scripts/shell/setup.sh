@@ -20,3 +20,17 @@ mysql -uroot -proot reactAdmin < /app/scripts/sqls/reactadmin.sql
 
 echo '=============start redis server==============='
 redis-server --daemonize yes
+
+echo '=============install pm2 in global env==============='
+cnpm i pm2 -g
+
+path=`pwd`
+echo "===========clone ui code==============="
+rm -rf $path/jiangxin-ui 
+git clone https://github.com/chenkang084/jiangxin-ui.git 
+cp -r $path/jiangxin-ui/dist/* $path/static/
+
+echo "===========start the app==============="
+npm run setup
+cd $path
+npm run prod
