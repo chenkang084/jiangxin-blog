@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import BaseController from "./base.controller";
-import { log } from "../utils/common";
-import { BaseResult } from "../pojos/baseResult";
-import config from "../config";
-import { writeFile } from "../services/file.service";
-import * as path from "path";
-import EditorService from "../services/editor.service";
+import { Request, Response } from 'express';
+import BaseController from './base.controller';
+import { log } from '../utils/common';
+import { BaseResult } from '../pojos/baseResult';
+import config from '../config';
+import { writeFile } from '../services/file.service';
+import * as path from 'path';
+import EditorService from '../services/editor.service';
 export default class EditorController extends BaseController {
   private editorService: EditorService = new EditorService();
 
@@ -21,19 +21,32 @@ export default class EditorController extends BaseController {
         abstract,
         author,
         content,
-        coverImg
+        coverImg,
       });
       await writeFile(
-        path.join(__dirname, "../../static/articles"),
-        title + ".html",
-        content
+        path.join(__dirname, '../../static/articles'),
+        title + '.html',
+        content,
       );
     });
   };
 
-  articleList = (req: Request, res: Response) => {
+  delArticle = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    console.log('del article', id);
     this.unifyResult(res, () => {
-      return this.editorService.queryArticleList();
+      return this.editorService.deleteArticleById(id);
+    });
+  };
+
+  articleList = (req: Request, res: Response) => {
+    this.unifyResult(res, async () => {
+      const { user } = req.session as any;
+      const articles = await this.editorService.queryArticleList();
+      return Promise.resolve({
+        articles,
+        isSign: user ? true : false,
+      });
     });
   };
 

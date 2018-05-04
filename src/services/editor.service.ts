@@ -1,11 +1,11 @@
-import * as mysql from "mysql";
-import BaseService from "./base.service";
-import { handleFuntionError } from "../utils/error.util";
-import { mysqlQuery } from "../utils/sql.util";
-import sqls from "../db/sqls";
-import * as path from "path";
-import { readFile } from "./file.service";
-import * as moment from "moment";
+import * as mysql from 'mysql';
+import BaseService from './base.service';
+import { handleFuntionError } from '../utils/error.util';
+import { mysqlQuery } from '../utils/sql.util';
+import sqls from '../db/sqls';
+import * as path from 'path';
+import { readFile } from './file.service';
+import * as moment from 'moment';
 interface Article {
   title: string;
   abstract: string;
@@ -32,7 +32,7 @@ export default class EditorService extends BaseService {
     abstract,
     author,
     content,
-    coverImg
+    coverImg,
   }: Article) => {
     try {
       const mysqlPool = (await this.mysql) as mysql.IPool;
@@ -41,7 +41,7 @@ export default class EditorService extends BaseService {
           return Promise.reject(error);
         }
 
-        connection.beginTransaction(transactionError => {
+        connection.beginTransaction((transactionError) => {
           if (transactionError) {
             return Promise.reject(transactionError);
           }
@@ -49,52 +49,51 @@ export default class EditorService extends BaseService {
           connection.query(
             sqls.article_getByTitle,
             [title],
-            (titleError, result, fields) => {
+            (titleError, article, fields) => {
               if (titleError) {
                 return connection.rollback(() => {
                   throw titleError;
                 });
               }
 
-              const { data: article } = result;
               if (article && article.length > 0) {
                 connection.query(
                   sqls.article_update,
                   [abstract, article[0].id],
-                  updateError => {
+                  (updateError) => {
                     if (updateError) {
                       return connection.rollback(() => {
                         throw updateError;
                       });
                     }
-                  }
+                  },
                 );
                 // this.updateArticleToDb(title, abstract, author, article[0].id);
               } else {
                 connection.query(
                   sqls.article_insert,
                   [title, abstract, author, coverImg],
-                  insertError => {
+                  (insertError) => {
                     if (insertError) {
                       return connection.rollback(() => {
                         throw insertError;
                       });
                     }
-                  }
+                  },
                 );
                 // this.saveArticleToDb(title, abstract, author, coverImg);
               }
 
-              connection.commit(commitError => {
+              connection.commit((commitError) => {
                 if (commitError) {
                   return connection.rollback(() => {
                     throw commitError;
                   });
                 }
 
-                console.log("success!");
+                console.log('success!');
               });
-            }
+            },
           );
 
           // const { data: article } = await this.queryArticleByTitile(title);
@@ -122,14 +121,14 @@ export default class EditorService extends BaseService {
     title: string,
     abstract: string,
     author: string,
-    coverImg: string
+    coverImg: string,
   ) => {
     return await handleFuntionError(() => {
       return mysqlQuery.call(this, sqls.article_insert, [
         title,
         abstract,
         author,
-        coverImg
+        coverImg,
       ]);
     });
   };
@@ -138,7 +137,7 @@ export default class EditorService extends BaseService {
     title: string,
     abstract: string,
     author: string,
-    id: string
+    id: string,
   ) => {
     await handleFuntionError(() => {
       return mysqlQuery.call(this, sqls.article_update, [abstract, id]);
@@ -149,15 +148,15 @@ export default class EditorService extends BaseService {
     return await handleFuntionError(async () => {
       const { data: articleList } = await mysqlQuery.call(
         this,
-        sqls.article_list
+        sqls.article_list,
       );
       if (articleList && articleList.length > 0) {
         return articleList.map((article: any) => {
           article.create_time = moment(article.create_time).format(
-            "YYYY-MM-DD HH:mm"
+            'YYYY-MM-DD HH:mm',
           );
           article.update_time = moment(article.update_time).format(
-            "YYYY-MM-DD HH:mm"
+            'YYYY-MM-DD HH:mm',
           );
           return article;
         });
@@ -176,15 +175,15 @@ export default class EditorService extends BaseService {
       if (articleList && articleList.length > 0) {
         const article = articleList[0];
         const content = await readFile(
-          path.join(__dirname, "../../static/articles/"),
-          article.title + ".html"
+          path.join(__dirname, '../../static/articles/'),
+          article.title + '.html',
         );
         article.content = content;
         article.create_time = moment(article.create_time).format(
-          "YYYY-MM-DD HH:mm"
+          'YYYY-MM-DD HH:mm',
         );
         article.update_time = moment(article.update_time).format(
-          "YYYY-MM-DD HH:mm"
+          'YYYY-MM-DD HH:mm',
         );
         return article;
       } else {
@@ -193,5 +192,11 @@ export default class EditorService extends BaseService {
     } catch (error) {
       return Promise.reject(error);
     }
+  };
+
+  deleteArticleById = async (id: string) => {
+    return await handleFuntionError(() => {
+      return mysqlQuery.call(this, sqls.article_delById, [id]);
+    });
   };
 }
